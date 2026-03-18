@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School Login System</title>
+  <meta name="description" content="Secure login portal for students, teachers, and principals.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-1: #4facfe;
+      --blue-2: #00c6ff;
+      --purple: #6c63ff;
+      --card-bg: rgba(255,255,255,0.12);
+      --card-border: rgba(255,255,255,0.25);
+      --text-white: #fff;
+      --text-muted: rgba(255,255,255,0.65);
+      --input-bg: rgba(255,255,255,0.15);
+      --input-border: rgba(255,255,255,0.3);
+      --input-focus: rgba(255,255,255,0.55);
+      --btn-grad: linear-gradient(135deg, #4facfe 0%, #00c6ff 100%);
+      --shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      overflow: hidden;
+    }
+
+    /* Animated background blobs */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      animation: floatBlob 8s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+    body::before {
+      width: 420px; height: 420px;
+      background: #4facfe;
+      top: -100px; left: -100px;
+    }
+    body::after {
+      width: 380px; height: 380px;
+      background: #6c63ff;
+      bottom: -100px; right: -100px;
+      animation-delay: 2s;
+    }
+    @keyframes floatBlob {
+      0% { transform: scale(1) translate(0,0); }
+      100% { transform: scale(1.15) translate(30px, 30px); }
+    }
+
+    /* ─── Card ─── */
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 40px 36px;
+      width: 380px;
+      box-shadow: var(--shadow);
+      animation: fadeUp 0.6s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Logo / Header ─── */
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .logo-icon {
+      width: 46px; height: 46px;
+      background: var(--btn-grad);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: white;
+      box-shadow: 0 4px 15px rgba(79,172,254,0.45);
+    }
+    .logo-text h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--text-white);
+      letter-spacing: -0.3px;
+    }
+    .logo-text p {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* ─── Form Labels ─── */
+    .field-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .field-group { margin-bottom: 18px; }
+
+    /* ─── Inputs & Select ─── */
+    select, input[type="text"], input[type="password"], input[type="email"] {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 10px;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+    }
+    select option { background: #302b63; color: white; }
+    select:focus, input:focus {
+      border-color: var(--input-focus);
+      background: rgba(255,255,255,0.2);
+      box-shadow: 0 0 0 3px rgba(79,172,254,0.18);
+    }
+    input::placeholder { color: rgba(255,255,255,0.38); }
+
+    /* ─── Password wrapper ─── */
+    .pw-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .pw-wrapper input { padding-right: 44px; }
+    .pw-toggle {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.5);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 4px;
+      width: auto;
+      display: flex;
+      align-items: center;
+      transition: color 0.2s;
+    }
+    .pw-toggle:hover { color: white; background: none; box-shadow: none; }
+
+    /* ─── Forgot password link ─── */
+    .forgot-link {
+      display: block;
+      text-align: right;
+      font-size: 0.78rem;
+      color: var(--blue-1);
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: -10px;
+      margin-bottom: 22px;
+      transition: color 0.2s;
+      text-decoration: none;
+      background: none;
+      border: none;
+      width: auto;
+      padding: 0;
+    }
+    .forgot-link:hover { color: white; background: none; box-shadow: none; }
+
+    /* ─── Primary Button ─── */
+    .btn-primary {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: var(--btn-grad);
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.97rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: transform 0.18s, box-shadow 0.18s, filter 0.18s;
+      box-shadow: 0 6px 22px rgba(79,172,254,0.38);
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0);
+      transition: background 0.18s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(79,172,254,0.5); filter: brightness(1.05); }
+    .btn-primary:active { transform: translateY(0); }
+
+    /* ─── Error msg ─── */
+    .error-msg {
+      display: none;
+      color: #ff6b8a;
+      font-size: 0.8rem;
+      margin-top: -10px;
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+    .error-msg.show { display: block; }
+
+    /* ─── MODAL ─── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.25s ease;
+    }
+    .modal-overlay.show { display: flex; }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+    .modal-box {
+      background: linear-gradient(160deg, #1e1b4b, #312e81);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 18px;
+      padding: 36px 32px;
+      width: 340px;
+      box-shadow: var(--shadow);
+      animation: fadeUp 0.35s cubic-bezier(.22,1,.36,1);
+      position: relative;
+    }
+    .modal-box h3 {
+      color: white;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .modal-box p {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      margin-bottom: 22px;
+      line-height: 1.55;
+    }
+    .modal-close {
+      position: absolute;
+      top: 14px; right: 16px;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.4);
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 4px;
+      width: auto;
+      transition: color 0.2s;
+    }
+    .modal-close:hover { color: white; background: none; box-shadow: none; }
+
+    .modal-success {
+      display: none;
+      text-align: center;
+      color: #6ee7b7;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-top: 14px;
+    }
+    .modal-success.show { display: block; }
+
+    /* ─── Divider ─── */
+    .divider {
+      display: flex; align-items: center; gap: 10px;
+      margin: 22px 0 18px;
+    }
+    .divider hr { flex: 1; border: none; border-top: 1px solid rgba(255,255,255,0.15); }
+    .divider span { color: var(--text-muted); font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+
+    /* ─── DASHBOARD ─── */
+    .dashboard {
+      display: none;
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      width: 100%;
+      padding: 30px 20px;
+      animation: fadeUp 0.5s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .dash-header {
+      max-width: 900px;
+      margin: 0 auto 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .dash-header h1 {
+      color: white;
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .dash-header h1 span { color: var(--blue-1); }
+    .dash-role-badge {
+      background: var(--btn-grad);
+      color: white;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-logout {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: auto;
+    }
+    .btn-logout:hover { background: rgba(255,255,255,0.22); box-shadow: none; }
+
+    .dash-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .dash-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .dash-card:hover {
+      transform: translateY(-4px);
+      background: rgba(255,255,255,0.2);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.22);
+    }
+    .dash-card-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+    .dash-card h3 { font-size: 1rem; font-weight: 700; }
+    .dash-card p { font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+
+    .ic-blue   { background: rgba(79,172,254,0.25); color: #4facfe; }
+    .ic-purple { background: rgba(108,99,255,0.25); color: #a78bfa; }
+    .ic-green  { background: rgba(52,211,153,0.25); color: #34d399; }
+    .ic-orange { background: rgba(251,146,60,0.25); color: #fb923c; }
+    .ic-pink   { background: rgba(244,114,182,0.25); color: #f472b6; }
+    .ic-cyan   { background: rgba(34,211,238,0.25); color: #22d3ee; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 440px) {
+      .card { width: 95vw; padding: 28px 20px; }
+      .modal-box { width: 92vw; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ══════════════════ LOGIN BOX ══════════════════ -->
+<div class="card" id="loginBox">
+
+  <div class="logo">
+    <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+    <div class="logo-text">
+      <h2>EduPortal</h2>
+      <p>School Management System</p>
+    </div>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label" for="role"><i class="fas fa-user-tag" style="margin-right:5px"></i>Login as</label>
+    <select id="role">
+      <option value="student">🎒 Student</option>
+      <option value="teacher">📚 Teacher</option>
+      <option value="principal">🏫 Principal</option>
+    </select>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label" for="username"><i class="fas fa-user" style="margin-right:5px"></i>Username</label>
+    <input type="text" id="username" placeholder="Enter your username" autocomplete="off">
+  </div>
+
+  <div class="field-group">
+    <label class="field-label" for="password"><i class="fas fa-lock" style="margin-right:5px"></i>Password</label>
+    <div class="pw-wrapper">
+      <input type="password" id="password" placeholder="Enter your password" autocomplete="off">
+      <button class="pw-toggle" id="togglePw" onclick="togglePassword()" aria-label="Toggle password visibility" tabindex="0">
+        <i class="fas fa-eye" id="eyeIcon"></i>
+      </button>
+    </div>
+  </div>
+
+  <button class="forgot-link" onclick="openForgotModal()">Forgot password?</button>
+
+  <div class="error-msg" id="errorMsg">
+    <i class="fas fa-exclamation-circle" style="margin-right:4px"></i>Please enter your username and password.
+  </div>
+
+  <button class="btn-primary" id="loginBtn" onclick="login()">
+    <i class="fas fa-arrow-right-to-bracket" style="margin-right:7px"></i>Sign In
+  </button>
+
+  <div class="divider">
+    <hr><span>Secure Login</span><hr>
+  </div>
+
+  <div style="text-align:center; color:var(--text-muted); font-size:0.75rem;">
+    <i class="fas fa-shield-halved" style="color:#4facfe; margin-right:5px"></i>
+    Protected by end-to-end encryption
+  </div>
+</div>
+
+
+<!-- ══════════════════ FORGOT PASSWORD MODAL ══════════════════ -->
+<div class="modal-overlay" id="forgotModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeForgotModal()" aria-label="Close modal"><i class="fas fa-xmark"></i></button>
+    <div style="font-size:2rem; margin-bottom:12px;">🔑</div>
+    <h3>Reset Password</h3>
+    <p>Enter your registered email address and we'll send you a link to reset your password.</p>
+
+    <div class="field-group">
+      <label class="field-label" for="resetEmail"><i class="fas fa-envelope" style="margin-right:5px"></i>Email Address</label>
+      <input type="email" id="resetEmail" placeholder="you@school.edu">
+    </div>
+
+    <button class="btn-primary" onclick="sendResetLink()">
+      <i class="fas fa-paper-plane" style="margin-right:7px"></i>Send Reset Link
+    </button>
+
+    <div class="modal-success" id="modalSuccess">
+      <i class="fas fa-circle-check" style="margin-right:5px"></i>
+      Reset link sent! Check your inbox.
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════ STUDENT DASHBOARD ══════════════════ -->
+<div class="dashboard" id="student">
+  <div class="dash-header">
+    <div>
+      <h1>Welcome, <span>Student!</span></h1>
+      <p style="color:var(--text-muted); font-size:0.82rem; margin-top:3px;">Here's your learning hub for today.</p>
+    </div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span class="dash-role-badge">Student</span>
+      <button class="btn-logout" onclick="logout()"><i class="fas fa-right-from-bracket" style="margin-right:5px"></i>Logout</button>
+    </div>
+  </div>
+  <div class="dash-grid">
+    <div class="dash-card">
+      <div class="dash-card-icon ic-blue"><i class="fas fa-book-open"></i></div>
+      <h3>View Notes</h3>
+      <p>Access all your class notes and study materials uploaded by teachers.</p>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-icon ic-purple"><i class="fas fa-file-upload"></i></div>
+      <h3>Submit Assignment</h3>
+      <p>Upload and submit your assignments before the deadline.</p>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-icon ic-green"><i class="fas fa-chart-bar"></i></div>
+      <h3>Check Result</h3>
+      <p>View your test scores, grades, and overall academic performance.</p>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-icon ic-orange"><i class="fas fa-calendar-check"></i></div>
+      <h3>Attendance</h3>
+      <p>Track your attendance record and view monthly summaries.</p>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-icon ic-pink"><i class="fas fa-bell"></i></div>
+      <h3>Notices</h3>
+      <p>Stay up-to-date with school notices and announcements.</p>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-icon ic-cyan"><i class="fas fa-calendar-days"></i></div>
+      <h3>Timetable</h3>
+      <p>View your weekly class schedule and exam dates.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════ TEACHER DASHBOARD ══════════════════ -->
+<div class="dashboard" id="teacher">
+  <div class="dash-header">
+    <div>
+      <h1>Welcome, <span>Teacher!</span></h1>
+      <p style="color:var(--text-muted); font-size:0.82rem; margin-top:3px;">Manage your classes and students with ease.</p>
+    </div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span class="dash-role-badge">Teacher</span>
+      <button class="btn-logout" onclick="logout()"><i class="fas fa-right-from-bracket" style="margin-right:5px"></i>Logout</button>
+    </div>
+  </div>
+  <div class="dash-grid">
+    <div class="dash-card">
+      <div class="dash-card-icon ic-blue"><i class="fas fa-cloud-upload-alt"></i></div>
+      <h3>Upload Notes</h3>
+      <p>Share study materials, PDFs, and resources with your students.</p>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-icon ic-purple"><i class="fas fa-tasks"></i></div>
+      <h3>Check Assignments</h3>
+      <p>Review student submissions and provide grades and feedback.</p>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-icon ic-green"><i class="fas fa-user-check"></i></div>
+      <h3>Mark Attendance</h3>
+      <p>Record daily attendance for each class section you handle.</p>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-icon ic-orange"><i class="fas fa-pen-to-square"></i></div>
+      <h3>Create Exam</h3>
+      <p>Schedule new tests and set question papers for your subjects.</p>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-icon ic-pink"><i class="fas fa-comments"></i></div>
+      <h3>Messages</h3>
+      <p>Communicate with students and parents through the portal.</p>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-icon ic-cyan"><i class="fas fa-chart-line"></i></div>
+      <h3>Performance</h3>
+      <p>View class-wide analytics and individual student progress reports.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════ PRINCIPAL DASHBOARD ══════════════════ -->
+<div class="dashboard" id="principal">
+  <div class="dash-header">
+    <div>
+      <h1>Welcome, <span>Principal!</span></h1>
+      <p style="color:var(--text-muted); font-size:0.82rem; margin-top:3px;">Complete administrative control at your fingertips.</p>
+    </div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span class="dash-role-badge">Principal</span>
+      <button class="btn-logout" onclick="logout()"><i class="fas fa-right-from-bracket" style="margin-right:5px"></i>Logout</button>
+    </div>
+  </div>
+  <div class="dash-grid">
+    <div class="dash-card">
+      <div class="dash-card-icon ic-blue"><i class="fas fa-chalkboard-teacher"></i></div>
+      <h3>Manage Teachers</h3>
+      <p>Add, edit, or remove teacher profiles and assign class responsibilities.</p>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-icon ic-purple"><i class="fas fa-file-chart-column"></i></div>
+      <h3>School Reports</h3>
+      <p>Access detailed academic and administrative reports across the school.</p>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-icon ic-green"><i class="fas fa-bullhorn"></i></div>
+      <h3>Approve Notices</h3>
+      <p>Review and publish school-wide announcements and circulars.</p>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-icon ic-orange"><i class="fas fa-users"></i></div>
+      <h3>Student Records</h3>
+      <p>Import, manage, and maintain comprehensive student data records.</p>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-icon ic-pink"><i class="fas fa-building-columns"></i></div>
+      <h3>Fee Management</h3>
+      <p>Track fee collection status, pending dues, and generate receipts.</p>
+    </div>
+    <div class="dash-card">
+      <div class="dash-card-icon ic-cyan"><i class="fas fa-gear"></i></div>
+      <h3>School Settings</h3>
+      <p>Update school name, logo, academic year, and other configurations.</p>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+  // ── Password toggle ──
+  function togglePassword() {
+    const pw = document.getElementById('password');
+    const icon = document.getElementById('eyeIcon');
+    if (pw.type === 'password') {
+      pw.type = 'text';
+      icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+      pw.type = 'password';
+      icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+  }
+
+  // ── Login ──
+  function login() {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const role     = document.getElementById('role').value;
+    const errorMsg = document.getElementById('errorMsg');
+    const btn      = document.getElementById('loginBtn');
+
+    if (!username || !password) {
+      errorMsg.classList.add('show');
+      document.getElementById(username ? 'password' : 'username').focus();
+      return;
+    }
+    errorMsg.classList.remove('show');
+
+    // Loading state
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right:7px"></i>Signing in…';
+    btn.disabled = true;
+
+    setTimeout(() => {
+      document.getElementById('loginBox').style.display = 'none';
+      document.getElementById(role).style.display = 'block';
+      btn.innerHTML = '<i class="fas fa-arrow-right-to-bracket" style="margin-right:7px"></i>Sign In';
+      btn.disabled = false;
+    }, 900);
+  }
+
+  // ── Logout ──
+  function logout() {
+    ['student','teacher','principal'].forEach(r => {
+      document.getElementById(r).style.display = 'none';
+    });
+    document.getElementById('loginBox').style.display = 'block';
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('password').type = 'password';
+    document.getElementById('eyeIcon').className = 'fas fa-eye';
+  }
+
+  // ── Forgot Password Modal ──
+  function openForgotModal() {
+    document.getElementById('forgotModal').classList.add('show');
+    document.getElementById('resetEmail').value = '';
+    document.getElementById('modalSuccess').classList.remove('show');
+  }
+  function closeForgotModal() {
+    document.getElementById('forgotModal').classList.remove('show');
+  }
+  function sendResetLink() {
+    const email = document.getElementById('resetEmail').value.trim();
+    if (!email || !email.includes('@')) {
+      document.getElementById('resetEmail').focus();
+      return;
+    }
+    document.getElementById('modalSuccess').classList.add('show');
+    setTimeout(closeForgotModal, 2200);
+  }
+
+  // Close modal on overlay click
+  document.getElementById('forgotModal').addEventListener('click', function(e) {
+    if (e.target === this) closeForgotModal();
+  });
+
+  // Allow Enter key to submit login
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && document.getElementById('loginBox').style.display !== 'none') {
+      login();
+    }
+  });
+
+</script>
+
+</body>
+</html>

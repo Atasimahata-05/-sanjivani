@@ -1,0 +1,3280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Sanjivani AI — Advanced AI-powered healthcare platform for early disease detection, ECG analysis, medical imaging, and mental wellness.">
+  <title>Sanjivani AI — Multimodal Healthcare Assistant</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap">
+  <style>
+    /* ===== CSS VARIABLES & RESET ===== */
+    :root {
+      --bg-deep: #0a0e27;
+      --bg-card: rgba(255, 255, 255, 0.04);
+      --bg-glass: rgba(255, 255, 255, 0.06);
+      --border-glass: rgba(255, 255, 255, 0.08);
+      --cyan: #00d4ff;
+      --blue: #0080ff;
+      --purple: #7c3aed;
+      --indigo: #6366f1;
+      --text: #e2e8f0;
+      --text-dim: #94a3b8;
+      --gradient-main: linear-gradient(135deg, #00d4ff, #0080ff, #7c3aed);
+      --gradient-btn: linear-gradient(135deg, #00d4ff 0%, #0080ff 50%, #7c3aed 100%);
+      --gradient-bg: linear-gradient(135deg, #0a0e27 0%, #0d1137 40%, #0a0e27 100%);
+      --shadow-glow: 0 0 30px rgba(0, 212, 255, 0.15);
+      --radius: 16px;
+      --sidebar-w: 260px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1)
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--gradient-bg);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 212, 255, 0.3);
+      border-radius: 3px
+    }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0
+      }
+
+      to {
+        opacity: 1
+      }
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-20px)
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.4
+      }
+
+      50% {
+        opacity: 1
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-40px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0)
+      }
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
+
+      100% {
+        background-position: 0% 50%
+      }
+    }
+
+    @keyframes borderGlow {
+
+      0%,
+      100% {
+        border-color: rgba(0, 212, 255, 0.2);
+        box-shadow: 0 0 15px rgba(0, 212, 255, 0.05)
+      }
+
+      50% {
+        border-color: rgba(0, 212, 255, 0.5);
+        box-shadow: 0 0 30px rgba(0, 212, 255, 0.15)
+      }
+    }
+
+    @keyframes ecgLine {
+      0% {
+        stroke-dashoffset: 1000
+      }
+
+      100% {
+        stroke-dashoffset: 0
+      }
+    }
+
+    @keyframes typing {
+      0% {
+        opacity: 0.3
+      }
+
+      50% {
+        opacity: 1
+      }
+
+      100% {
+        opacity: 0.3
+      }
+    }
+
+    @keyframes orbFloat1 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1)
+      }
+
+      33% {
+        transform: translate(30px, -40px) scale(1.1)
+      }
+
+      66% {
+        transform: translate(-20px, 20px) scale(0.9)
+      }
+    }
+
+    @keyframes orbFloat2 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1)
+      }
+
+      33% {
+        transform: translate(-40px, 30px) scale(0.9)
+      }
+
+      66% {
+        transform: translate(25px, -35px) scale(1.1)
+      }
+    }
+
+    @keyframes counterPulse {
+      0% {
+        transform: scale(1)
+      }
+
+      50% {
+        transform: scale(1.05)
+      }
+
+      100% {
+        transform: scale(1)
+      }
+    }
+
+    @keyframes waveAnim {
+      0% {
+        height: 8px
+      }
+
+      100% {
+        height: 40px
+      }
+    }
+
+    .animate-in {
+      animation: fadeInUp 0.6s ease forwards
+    }
+
+    .animate-delay-1 {
+      animation-delay: 0.1s;
+      opacity: 0
+    }
+
+    .animate-delay-2 {
+      animation-delay: 0.2s;
+      opacity: 0
+    }
+
+    .animate-delay-3 {
+      animation-delay: 0.3s;
+      opacity: 0
+    }
+
+    .animate-delay-4 {
+      animation-delay: 0.4s;
+      opacity: 0
+    }
+
+    /* ===== GLASS CARD ===== */
+    .glass {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px)
+    }
+
+    /* ===== PARTICLES ===== */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.3), transparent);
+      animation: orbFloat1 8s ease-in-out infinite
+    }
+
+    .particle:nth-child(1) {
+      width: 300px;
+      height: 300px;
+      top: 10%;
+      left: 5%
+    }
+
+    .particle:nth-child(2) {
+      width: 200px;
+      height: 200px;
+      top: 60%;
+      right: 10%;
+      animation-name: orbFloat2;
+      animation-duration: 10s
+    }
+
+    .particle:nth-child(3) {
+      width: 150px;
+      height: 150px;
+      top: 30%;
+      right: 30%;
+      animation-duration: 12s
+    }
+
+    .particle:nth-child(4) {
+      width: 100px;
+      height: 100px;
+      bottom: 10%;
+      left: 20%;
+      animation-name: orbFloat2;
+      animation-duration: 9s
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 50px;
+      background: rgba(10, 14, 39, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-glass);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      animation: fadeIn 0.5s ease
+    }
+
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      align-items: center
+    }
+
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative
+    }
+
+    .nav-links a:hover {
+      color: var(--cyan)
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gradient-main);
+      transition: var(--transition)
+    }
+
+    .nav-links a:hover::after {
+      width: 100%
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn-primary {
+      padding: 12px 28px;
+      border: none;
+      border-radius: 12px;
+      background: var(--gradient-btn);
+      background-size: 200% 200%;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 128, 255, 0.3);
+      background-position: 100% 0
+    }
+
+    .btn-primary:active {
+      transform: translateY(0)
+    }
+
+    .btn-outline {
+      padding: 12px 28px;
+      border: 1.5px solid rgba(0, 212, 255, 0.4);
+      border-radius: 12px;
+      background: transparent;
+      color: var(--cyan);
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition)
+    }
+
+    .btn-outline:hover {
+      background: rgba(0, 212, 255, 0.1);
+      border-color: var(--cyan);
+      transform: translateY(-2px)
+    }
+
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border-glass);
+      border-radius: 10px;
+      background: var(--bg-glass);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 18px;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .btn-icon:hover {
+      background: rgba(0, 212, 255, 0.1);
+      border-color: var(--cyan)
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 100px 8% 80px;
+      position: relative;
+      z-index: 1;
+      min-height: 85vh
+    }
+
+    .hero-content {
+      max-width: 600px
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 50px;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      font-size: 13px;
+      color: var(--cyan);
+      margin-bottom: 24px;
+      animation: fadeInUp 0.6s ease
+    }
+
+    .hero-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--cyan);
+      animation: pulse 2s infinite
+    }
+
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 56px;
+      font-weight: 800;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #fff 0%, #00d4ff 50%, #0080ff 100%);
+      background-size: 200% 200%;
+      animation: gradientShift 4s ease infinite;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 20px
+    }
+
+    .hero p {
+      font-size: 17px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 500px
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap
+    }
+
+    .hero-visual {
+      position: relative;
+      flex-shrink: 0
+    }
+
+    .hero-visual .hero-glow {
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 212, 255, 0.15) 0%, rgba(0, 128, 255, 0.05) 50%, transparent 70%);
+      animation: float 6s ease-in-out infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .hero-visual .hero-icon {
+      font-size: 120px;
+      filter: drop-shadow(0 0 30px rgba(0, 212, 255, 0.4))
+    }
+
+    /* ===== FEATURES ===== */
+    .features-section {
+      padding: 80px 8%;
+      position: relative;
+      z-index: 1
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px
+    }
+
+    .section-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 40px;
+      font-weight: 700;
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 12px
+    }
+
+    .section-header p {
+      color: var(--text-dim);
+      font-size: 16px;
+      max-width: 500px;
+      margin: 0 auto
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px
+    }
+
+    .feature-card {
+      padding: 32px;
+      transition: var(--transition);
+      cursor: pointer;
+      animation: fadeInUp 0.6s ease forwards;
+      position: relative;
+      overflow: hidden
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-main);
+      opacity: 0;
+      transition: var(--transition)
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-glow);
+      border-color: rgba(0, 212, 255, 0.2)
+    }
+
+    .feature-card:hover::before {
+      opacity: 1
+    }
+
+    .feature-card .card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(0, 128, 255, 0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin-bottom: 20px
+    }
+
+    .feature-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px
+    }
+
+    .feature-card p {
+      color: var(--text-dim);
+      font-size: 14px;
+      line-height: 1.6
+    }
+
+    .footer {
+      padding: 40px 8%;
+      text-align: center;
+      color: var(--text-dim);
+      border-top: 1px solid var(--border-glass);
+      font-size: 14px;
+      position: relative;
+      z-index: 1
+    }
+
+    /* ===== LOGIN ===== */
+    .login-page {
+      display: none;
+      min-height: 100vh;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      padding: 20px
+    }
+
+    .login-card {
+      width: 420px;
+      max-width: 100%;
+      padding: 48px 40px;
+      text-align: center;
+      animation: fadeInUp 0.6s ease, borderGlow 3s ease-in-out infinite;
+      position: relative;
+      overflow: hidden
+    }
+
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: var(--gradient-main);
+      border-radius: 18px;
+      z-index: -1;
+      opacity: 0.15
+    }
+
+    .login-card .login-icon {
+      font-size: 48px;
+      margin-bottom: 16px
+    }
+
+    .login-card h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px
+    }
+
+    .login-card .login-sub {
+      color: var(--text-dim);
+      font-size: 14px;
+      margin-bottom: 32px
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 18px;
+      text-align: left
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-dim);
+      margin-bottom: 6px
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid var(--border-glass);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      transition: var(--transition);
+      outline: none
+    }
+
+    .input-group input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.1)
+    }
+
+    .input-group input::placeholder {
+      color: rgba(148, 163, 184, 0.5)
+    }
+
+    .input-group .toggle-pass {
+      position: absolute;
+      right: 14px;
+      top: 38px;
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      font-size: 18px
+    }
+
+    .login-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      font-size: 13px
+    }
+
+    .login-options a {
+      color: var(--cyan);
+      text-decoration: none;
+      cursor: pointer
+    }
+
+    .login-options a:hover {
+      text-decoration: underline
+    }
+
+    .login-options label {
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer
+    }
+
+    .login-options input[type="checkbox"] {
+      accent-color: var(--cyan)
+    }
+
+    .login-card .btn-primary {
+      width: 100%;
+      padding: 15px;
+      font-size: 15px;
+      margin-bottom: 20px
+    }
+
+    .login-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      color: var(--text-dim);
+      font-size: 13px
+    }
+
+    .login-divider::before,
+    .login-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border-glass)
+    }
+
+    .social-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center
+    }
+
+    .social-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--text)
+    }
+
+    .social-btn:hover {
+      border-color: var(--cyan);
+      background: rgba(0, 212, 255, 0.08);
+      transform: translateY(-2px)
+    }
+
+    .login-footer {
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--text-dim)
+    }
+
+    .login-footer a {
+      color: var(--cyan);
+      text-decoration: none
+    }
+
+    /* ===== DASHBOARD & SIDEBAR ===== */
+    .dashboard {
+      display: none;
+      min-height: 100vh
+    }
+
+    .sidebar {
+      width: var(--sidebar-w);
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      background: rgba(10, 14, 39, 0.95);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid var(--border-glass);
+      padding: 24px 16px;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      animation: slideInLeft 0.4s ease;
+      overflow-y: auto
+    }
+
+    .sidebar-logo {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      padding: 0 12px 24px;
+      border-bottom: 1px solid var(--border-glass);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .sidebar-logo span {
+      font-size: 24px
+    }
+
+    .sidebar-nav {
+      list-style: none;
+      flex: 1
+    }
+
+    .sidebar-nav li {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      color: var(--text-dim);
+      font-size: 14px;
+      font-weight: 500;
+      transition: var(--transition);
+      margin-bottom: 4px
+    }
+
+    .sidebar-nav li:hover {
+      background: rgba(0, 212, 255, 0.06);
+      color: var(--text)
+    }
+
+    .sidebar-nav li.active {
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.12), rgba(0, 128, 255, 0.08));
+      color: var(--cyan);
+      border: 1px solid rgba(0, 212, 255, 0.15)
+    }
+
+    .sidebar-nav li .nav-icon {
+      font-size: 20px;
+      width: 24px;
+      text-align: center
+    }
+
+    .sidebar-footer {
+      padding: 16px;
+      border-top: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-dim);
+      cursor: pointer
+    }
+
+    .sidebar-footer:hover {
+      color: var(--cyan)
+    }
+
+    .sidebar-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--gradient-btn);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff
+    }
+
+    .main-content {
+      margin-left: var(--sidebar-w);
+      padding: 32px 40px;
+      min-height: 100vh
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px
+    }
+
+    .page-header h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 700
+    }
+
+    .page-header .header-sub {
+      color: var(--text-dim);
+      font-size: 14px;
+      margin-top: 4px
+    }
+
+    .sub-page {
+      display: none;
+      animation: fadeIn 0.4s ease
+    }
+
+    .sub-page.active {
+      display: block
+    }
+
+    /* ===== STAT CARDS ===== */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px
+    }
+
+    .stat-card {
+      padding: 24px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-glow)
+    }
+
+    .stat-card .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 16px
+    }
+
+    .stat-card .stat-icon.green {
+      background: rgba(16, 185, 129, 0.12)
+    }
+
+    .stat-card .stat-icon.blue {
+      background: rgba(0, 128, 255, 0.12)
+    }
+
+    .stat-card .stat-icon.purple {
+      background: rgba(124, 58, 237, 0.12)
+    }
+
+    .stat-card .stat-icon.cyan {
+      background: rgba(0, 212, 255, 0.12)
+    }
+
+    .stat-card .stat-label {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 6px
+    }
+
+    .stat-card .stat-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 32px;
+      font-weight: 700
+    }
+
+    .stat-card .stat-change {
+      font-size: 12px;
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px
+    }
+
+    .stat-card .stat-change.up {
+      color: #10b981
+    }
+
+    .stat-card .stat-change.down {
+      color: #ef4444
+    }
+
+    /* ===== CHARTS & ACTIVITY ===== */
+    .chart-container {
+      padding: 28px;
+      margin-bottom: 32px
+    }
+
+    .chart-container h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      margin-bottom: 20px
+    }
+
+    .chart-svg {
+      width: 100%;
+      height: 200px
+    }
+
+    .activity-list {
+      list-style: none
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      border-bottom: 1px solid var(--border-glass);
+      transition: var(--transition)
+    }
+
+    .activity-item:last-child {
+      border-bottom: none
+    }
+
+    .activity-item:hover {
+      background: rgba(0, 212, 255, 0.03)
+    }
+
+    .activity-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0
+    }
+
+    .activity-dot.green {
+      background: #10b981
+    }
+
+    .activity-dot.blue {
+      background: var(--blue)
+    }
+
+    .activity-dot.yellow {
+      background: #f59e0b
+    }
+
+    .activity-text {
+      flex: 1;
+      font-size: 14px
+    }
+
+    .activity-time {
+      font-size: 12px;
+      color: var(--text-dim)
+    }
+
+    /* ===== FORMS ===== */
+    .form-container {
+      max-width: 600px;
+      padding: 36px
+    }
+
+    .form-container h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      margin-bottom: 24px
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px
+    }
+
+    .form-group {
+      margin-bottom: 18px
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-dim);
+      margin-bottom: 6px
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid var(--border-glass);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      transition: var(--transition);
+      outline: none
+    }
+
+    .form-group select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px
+    }
+
+    .form-group textarea {
+      min-height: 90px;
+      resize: vertical
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.1)
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(148, 163, 184, 0.5)
+    }
+
+    /* ===== RESULT BOX ===== */
+    .result-box {
+      margin-top: 24px;
+      padding: 24px;
+      border-radius: var(--radius);
+      background: rgba(0, 212, 255, 0.04);
+      border: 1px solid rgba(0, 212, 255, 0.1);
+      animation: fadeIn 0.4s ease
+    }
+
+    .result-box h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      margin-bottom: 12px
+    }
+
+    .risk-bar {
+      height: 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      margin: 12px 0;
+      overflow: hidden
+    }
+
+    .risk-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.8s ease
+    }
+
+    .risk-low {
+      background: linear-gradient(90deg, #10b981, #34d399)
+    }
+
+    .risk-medium {
+      background: linear-gradient(90deg, #f59e0b, #fbbf24)
+    }
+
+    .risk-high {
+      background: linear-gradient(90deg, #ef4444, #f87171)
+    }
+
+    /* ===== UPLOAD ===== */
+    .upload-zone {
+      border: 2px dashed rgba(0, 212, 255, 0.3);
+      border-radius: var(--radius);
+      padding: 50px;
+      text-align: center;
+      transition: var(--transition);
+      cursor: pointer;
+      margin: 20px 0;
+      position: relative
+    }
+
+    .upload-zone:hover {
+      border-color: var(--cyan);
+      background: rgba(0, 212, 255, 0.03)
+    }
+
+    .upload-zone.dragover {
+      border-color: var(--cyan);
+      background: rgba(0, 212, 255, 0.06)
+    }
+
+    .upload-zone .upload-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      display: block
+    }
+
+    .upload-zone p {
+      color: var(--text-dim);
+      font-size: 14px
+    }
+
+    .upload-zone .upload-hint {
+      font-size: 12px;
+      color: rgba(148, 163, 184, 0.6);
+      margin-top: 8px
+    }
+
+    .upload-zone input[type="file"] {
+      display: none
+    }
+
+    .upload-preview {
+      margin-top: 20px
+    }
+
+    .upload-preview img {
+      max-width: 300px;
+      border-radius: 12px;
+      border: 1px solid var(--border-glass)
+    }
+
+    /* ===== ECG ===== */
+    .ecg-container {
+      padding: 28px;
+      margin: 20px 0
+    }
+
+    .ecg-svg {
+      width: 100%;
+      height: 150px
+    }
+
+    .ecg-line {
+      fill: none;
+      stroke: var(--cyan);
+      stroke-width: 2;
+      stroke-dasharray: 1000;
+      animation: ecgLine 3s linear infinite
+    }
+
+    /* ===== CHAT ===== */
+    .chat-container {
+      max-width: 700px
+    }
+
+    .chat-window {
+      height: 420px;
+      overflow-y: auto;
+      padding: 20px;
+      margin-bottom: 16px;
+      border-radius: var(--radius);
+      background: rgba(10, 14, 39, 0.6);
+      border: 1px solid var(--border-glass)
+    }
+
+    .chat-msg {
+      display: flex;
+      margin-bottom: 16px;
+      animation: fadeInUp 0.3s ease
+    }
+
+    .chat-msg.user {
+      justify-content: flex-end
+    }
+
+    .chat-bubble {
+      max-width: 70%;
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      position: relative
+    }
+
+    .chat-msg.user .chat-bubble {
+      background: linear-gradient(135deg, var(--blue), var(--indigo));
+      border-bottom-right-radius: 4px
+    }
+
+    .chat-msg.ai .chat-bubble {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      border-bottom-left-radius: 4px
+    }
+
+    .chat-time {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 6px
+    }
+
+    .chat-msg.user .chat-time {
+      text-align: right
+    }
+
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 14px 18px;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      border-radius: 16px;
+      border-bottom-left-radius: 4px;
+      width: fit-content
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--text-dim);
+      animation: typing 1.4s infinite
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 12px
+    }
+
+    .chat-input-row input {
+      flex: 1;
+      padding: 14px 18px;
+      border: 1.5px solid var(--border-glass);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: var(--transition)
+    }
+
+    .chat-input-row input:focus {
+      border-color: var(--cyan)
+    }
+
+    .chat-input-row input::placeholder {
+      color: rgba(148, 163, 184, 0.5)
+    }
+
+    /* ===== REPORT ===== */
+    .report-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px
+    }
+
+    .report-metric {
+      padding: 24px;
+      text-align: center
+    }
+
+    .report-metric .metric-icon {
+      font-size: 32px;
+      margin-bottom: 12px
+    }
+
+    .report-metric .metric-label {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 4px
+    }
+
+    .report-metric .metric-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 700
+    }
+
+    .report-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap
+    }
+
+    /* ===== FORGOT PASSWORD MODAL ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease
+    }
+
+    .modal-overlay.show {
+      display: flex
+    }
+
+    .modal-card {
+      width: 440px;
+      max-width: 92%;
+      padding: 40px 36px;
+      text-align: center;
+      animation: fadeInUp 0.4s ease;
+      position: relative
+    }
+
+    .modal-card h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px
+    }
+
+    .modal-card .modal-sub {
+      color: var(--text-dim);
+      font-size: 14px;
+      margin-bottom: 28px
+    }
+
+    .modal-card .modal-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      display: block
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 22px;
+      cursor: pointer;
+      transition: var(--transition)
+    }
+
+    .modal-close:hover {
+      color: var(--cyan)
+    }
+
+    .modal-step {
+      display: none;
+      animation: fadeIn 0.4s ease
+    }
+
+    .modal-step.active {
+      display: block
+    }
+
+    .otp-inputs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0
+    }
+
+    .otp-inputs input {
+      width: 48px;
+      height: 54px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+      border: 1.5px solid var(--border-glass);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--cyan);
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: var(--transition)
+    }
+
+    .otp-inputs input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.15)
+    }
+
+    .success-checkmark {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10b981, #34d399);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      margin: 0 auto 20px;
+      animation: counterPulse 0.6s ease
+    }
+
+    /* ===== AI PHYSICIAN ===== */
+    .physician-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px
+    }
+
+    .physician-result {
+      padding: 28px;
+      animation: fadeInUp 0.5s ease
+    }
+
+    .physician-result h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .risk-badge {
+      display: inline-flex;
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600
+    }
+
+    .risk-badge.low {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3)
+    }
+
+    .risk-badge.medium {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3)
+    }
+
+    .risk-badge.high {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3)
+    }
+
+    .next-steps {
+      list-style: none;
+      margin-top: 16px
+    }
+
+    .next-steps li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-glass);
+      font-size: 14px;
+      color: var(--text-dim);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px
+    }
+
+    .next-steps li:last-child {
+      border-bottom: none
+    }
+
+    /* ===== MULTIMODAL ===== */
+    .multimodal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 28px
+    }
+
+    .modal-module {
+      padding: 28px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden
+    }
+
+    .modal-module::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--gradient-main);
+      opacity: 0;
+      transition: var(--transition)
+    }
+
+    .modal-module:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-glow)
+    }
+
+    .modal-module:hover::before {
+      opacity: 1
+    }
+
+    .modal-module .module-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px
+    }
+
+    .modal-module .module-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px
+    }
+
+    .modal-module .module-icon.skin {
+      background: rgba(245, 158, 11, 0.12)
+    }
+
+    .modal-module .module-icon.voice {
+      background: rgba(124, 58, 237, 0.12)
+    }
+
+    .modal-module .module-icon.camera {
+      background: rgba(239, 68, 68, 0.12)
+    }
+
+    .modal-module h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 17px;
+      font-weight: 600
+    }
+
+    .modal-module p.mod-desc {
+      color: var(--text-dim);
+      font-size: 13px;
+      margin-bottom: 16px
+    }
+
+    .record-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition)
+    }
+
+    .record-btn.mic {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(124, 58, 237, 0.15));
+      color: #a78bfa;
+      border: 1px solid rgba(124, 58, 237, 0.3)
+    }
+
+    .record-btn.cam {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(239, 68, 68, 0.15));
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3)
+    }
+
+    .record-btn:hover {
+      transform: translateY(-2px)
+    }
+
+    .record-btn.recording {
+      animation: pulse 1s infinite
+    }
+
+    .waveform-placeholder {
+      height: 60px;
+      border-radius: 10px;
+      background: rgba(124, 58, 237, 0.06);
+      border: 1px solid rgba(124, 58, 237, 0.15);
+      margin: 14px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden
+    }
+
+    .waveform-bar {
+      width: 3px;
+      margin: 0 2px;
+      border-radius: 2px;
+      background: var(--purple)
+    }
+
+    .camera-feed {
+      width: 100%;
+      height: 180px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 14px 0;
+      overflow: hidden;
+      position: relative
+    }
+
+    .camera-feed video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px
+    }
+
+    .bpm-display {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #f87171
+    }
+
+    .combined-panel {
+      padding: 28px;
+      margin-top: 8px
+    }
+
+    .combined-panel h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      margin-bottom: 16px
+    }
+
+    .signal-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-glass)
+    }
+
+    .signal-row:last-child {
+      border-bottom: none
+    }
+
+    .signal-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0
+    }
+
+    .signal-label {
+      flex: 1;
+      font-size: 14px
+    }
+
+    .signal-status {
+      font-size: 13px;
+      font-weight: 600
+    }
+
+    /* ===== HEALTH SCORE ===== */
+    .score-section {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 32px;
+      margin-bottom: 32px;
+      align-items: start
+    }
+
+    .gauge-card {
+      padding: 36px;
+      text-align: center
+    }
+
+    .gauge-svg {
+      width: 200px;
+      height: 200px
+    }
+
+    .gauge-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.06);
+      stroke-width: 14
+    }
+
+    .gauge-fill {
+      fill: none;
+      stroke-width: 14;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1.5s ease
+    }
+
+    .gauge-text {
+      font-family: 'Outfit', sans-serif;
+      font-size: 42px;
+      font-weight: 800;
+      fill: var(--text)
+    }
+
+    .gauge-label {
+      font-size: 13px;
+      fill: var(--text-dim)
+    }
+
+    .score-summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px
+    }
+
+    .score-metric {
+      padding: 20px;
+      text-align: center;
+      transition: var(--transition)
+    }
+
+    .score-metric:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-glow)
+    }
+
+    .score-metric .sm-icon {
+      font-size: 28px;
+      margin-bottom: 10px
+    }
+
+    .score-metric .sm-label {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 4px
+    }
+
+    .score-metric .sm-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 700
+    }
+
+    /* ===== EXPLAINABLE AI ===== */
+    .explain-section {
+      margin-top: 32px
+    }
+
+    .explain-card {
+      padding: 24px;
+      margin-bottom: 16px;
+      border-left: 3px solid var(--cyan);
+      animation: fadeInUp 0.5s ease
+    }
+
+    .explain-card h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .explain-card .reasons {
+      list-style: none
+    }
+
+    .explain-card .reasons li {
+      padding: 6px 0;
+      font-size: 14px;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .explain-card .reasons li::before {
+      content: '\2022';
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 18px
+    }
+
+    /* ===== PREVENTIVE SUGGESTIONS ===== */
+    .suggestions-panel {
+      padding: 28px;
+      margin-top: 24px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      background: rgba(16, 185, 129, 0.04);
+      border-radius: var(--radius)
+    }
+
+    .suggestions-panel h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #34d399;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .suggestion-item {
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(16, 185, 129, 0.1);
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      display: flex;
+      gap: 12px
+    }
+
+    .suggestion-item:last-child {
+      border-bottom: none
+    }
+
+    .suggestion-item .s-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 2px
+    }
+
+    /* ===== MED REPORT ===== */
+    .report-header-card {
+      padding: 32px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      border: 1px solid rgba(0, 212, 255, 0.15)
+    }
+
+    .report-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: var(--gradient-btn);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px
+    }
+
+    .report-title h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 22px;
+      font-weight: 700
+    }
+
+    .report-title p {
+      color: var(--text-dim);
+      font-size: 13px;
+      margin-top: 4px
+    }
+
+    .report-section {
+      padding: 24px;
+      margin-bottom: 20px
+    }
+
+    .report-section h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 17px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-glass)
+    }
+
+    .report-table {
+      width: 100%;
+      border-collapse: collapse
+    }
+
+    .report-table td {
+      padding: 10px 14px;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border-glass)
+    }
+
+    .report-table td:first-child {
+      color: var(--text-dim);
+      width: 40%
+    }
+
+    .report-table td:last-child {
+      font-weight: 600
+    }
+
+    /* ===== PRINT ===== */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #222 !important
+      }
+
+      .navbar,
+      .sidebar,
+      .particles,
+      .modal-overlay,
+      .report-actions,
+      #sidebarToggle {
+        display: none !important
+      }
+
+      .main-content {
+        margin-left: 0 !important;
+        padding: 20px !important
+      }
+
+      .glass,
+      .report-section,
+      .report-header-card {
+        background: #fff !important;
+        border: 1px solid #ddd !important;
+        backdrop-filter: none !important
+      }
+
+      * {
+        color: #222 !important
+      }
+
+      .gauge-text {
+        fill: #222 !important
+      }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:1024px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 60px 5%
+      }
+
+      .hero p {
+        margin: 16px auto 32px
+      }
+
+      .hero-buttons {
+        justify-content: center
+      }
+
+      .hero-visual {
+        margin-top: 40px
+      }
+
+      .hero h1 {
+        font-size: 40px
+      }
+
+      .physician-grid {
+        grid-template-columns: 1fr
+      }
+
+      .score-section {
+        grid-template-columns: 1fr
+      }
+    }
+
+    @media(max-width:768px) {
+      .navbar {
+        padding: 14px 20px
+      }
+
+      .nav-links {
+        gap: 15px
+      }
+
+      .nav-links a {
+        font-size: 13px
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: var(--transition)
+      }
+
+      .sidebar.open {
+        transform: translateX(0)
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 20px
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr
+      }
+
+      .stats-row {
+        grid-template-columns: 1fr 1fr
+      }
+
+      .form-row {
+        grid-template-columns: 1fr
+      }
+
+      .hero h1 {
+        font-size: 32px
+      }
+
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px
+      }
+
+      .multimodal-grid {
+        grid-template-columns: 1fr
+      }
+
+      .score-summary-grid {
+        grid-template-columns: 1fr
+      }
+
+      .report-header-card {
+        flex-direction: column;
+        text-align: center
+      }
+
+      .otp-inputs input {
+        width: 42px;
+        height: 48px;
+        font-size: 18px
+      }
+    }
+
+    @media(max-width:480px) {
+      .stats-row {
+        grid-template-columns: 1fr
+      }
+
+      .hero {
+        padding: 40px 5%
+      }
+
+      .hero h1 {
+        font-size: 28px
+      }
+
+      .login-card {
+        padding: 32px 24px
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== PARTICLES BACKGROUND ===== -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" id="mainNav">
+    <div class="logo" onclick="showHome()"><span class="logo-icon">🛡️</span> Sanjivani_AI</div>
+    <div class="nav-links">
+      <a href="#" onclick="showHome()">Home</a>
+      <a href="#features">Features</a>
+      <a href="#" onclick="showLogin()">Login</a>
+      <button class="btn-primary" onclick="showLogin()" id="getStartedBtn">Get Started</button>
+    </div>
+  </nav>
+
+  <!-- ===== HOME PAGE ===== -->
+  <div id="homePage">
+    <section class="hero">
+      <div class="hero-content">
+        <div class="hero-badge animate-in"><span class="dot"></span>Multimodal Healthcare Assistant</div>
+        <h1 class="animate-in animate-delay-1">Next-Gen AI Disease Detection & Health Monitoring</h1>
+        <p class="animate-in animate-delay-2">Advanced artificial intelligence for early disease risk prediction,
+          real-time heart monitoring, medical image diagnosis, and personalized mental wellness support.</p>
+        <div class="hero-buttons animate-in animate-delay-3">
+          <button class="btn-primary" onclick="showLogin()">🚀 Start Screening</button>
+          <button class="btn-outline"
+            onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Learn More →</button>
+        </div>
+      </div>
+      <div class="hero-visual animate-in animate-delay-4">
+        <div class="hero-glow"><span class="hero-icon">🏥</span></div>
+      </div>
+    </section>
+    <section class="features-section" id="features">
+      <div class="section-header">
+        <h2>Healing through Intelligence</h2>
+        <p>Powered by cutting-edge AI to deliver accurate, fast, and accessible health insights</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card glass animate-in animate-delay-1">
+          <div class="card-icon">🔬</div>
+          <h3>Early Disease Detection</h3>
+          <p>AI analyzes patient vitals and health parameters to predict disease risks with high accuracy before
+            symptoms manifest.</p>
+        </div>
+        <div class="feature-card glass animate-in animate-delay-2">
+          <div class="card-icon">❤️</div>
+          <h3>ECG Heart Analyzer</h3>
+          <p>Real-time AI-powered electrocardiogram analysis for detecting arrhythmias, heart conditions, and cardiac
+            anomalies.</p>
+        </div>
+        <div class="feature-card glass animate-in animate-delay-3">
+          <div class="card-icon">🩻</div>
+          <h3>Medical Image Diagnosis</h3>
+          <p>Upload X-rays, MRIs, or CT scans for instant AI-powered analysis and preliminary diagnostic insights.</p>
+        </div>
+        <div class="feature-card glass animate-in animate-delay-4">
+          <div class="card-icon">🧠</div>
+          <h3>Mental Health Assistant</h3>
+          <p>Empathetic AI chatbot providing mental wellness support, stress management techniques, and emotional
+            guidance 24/7.</p>
+        </div>
+      </div>
+    </section>
+    <footer class="footer">
+      <p>&copy; 2026 Sanjivani AI  — Intelligent Healthcare Platform. Built with ❤️ and AI.</p>
+    </footer>
+  </div>
+
+  <!-- ===== LOGIN PAGE ===== -->
+  <div class="login-page" id="loginPage">
+    <div class="login-card glass">
+      <div class="login-icon">🛡️</div>
+      <h2>Welcome Back</h2>
+      <p class="login-sub">Sign in to access your AI health dashboard</p>
+      <div class="input-group"><label>Email Address</label><input type="email" placeholder="you@example.com"
+          id="loginEmail"></div>
+      <div class="input-group"><label>Password</label><input type="password" placeholder="Enter your password"
+          id="loginPass"><button class="toggle-pass" onclick="togglePassword(this)">👁️</button></div>
+      <div class="login-options"><label><input type="checkbox" checked> Remember me</label><a
+          onclick="openForgotModal()">Forgot password?</a></div>
+      <button class="btn-primary" onclick="openDashboard()">Sign In →</button>
+      <div class="login-divider">or continue with</div>
+      <div class="social-btns"><button class="social-btn">G</button><button class="social-btn">f</button><button
+          class="social-btn">🍎</button></div>
+      <p class="login-footer">Don't have an account? <a href="#">Sign up free</a></p>
+    </div>
+  </div>
+
+  <!-- ===== FORGOT PASSWORD MODAL ===== -->
+  <div class="modal-overlay" id="forgotModal">
+    <div class="modal-card glass">
+      <button class="modal-close" onclick="closeForgotModal()">&times;</button>
+      <!-- Step 1: Email -->
+      <div class="modal-step active" id="forgotStep1">
+        <span class="modal-icon">📧</span>
+        <h2>Forgot Password</h2>
+        <p class="modal-sub">Enter your email address to receive a verification code</p>
+        <div class="input-group"><label>Email Address</label><input type="email" placeholder="you@example.com"
+            id="forgotEmail"></div>
+        <button class="btn-primary" style="width:100%;padding:15px;" onclick="forgotStep(2)">Send Verification Code
+          →</button>
+      </div>
+      <!-- Step 2: OTP -->
+      <div class="modal-step" id="forgotStep2">
+        <span class="modal-icon">🔐</span>
+        <h2>Enter Verification Code</h2>
+        <p class="modal-sub">We've sent a 6-digit code to your email</p>
+        <div class="otp-inputs"><input type="text" maxlength="1" oninput="otpNext(this)"><input type="text"
+            maxlength="1" oninput="otpNext(this)"><input type="text" maxlength="1" oninput="otpNext(this)"><input
+            type="text" maxlength="1" oninput="otpNext(this)"><input type="text" maxlength="1"
+            oninput="otpNext(this)"><input type="text" maxlength="1" oninput="otpNext(this)"></div>
+        <button class="btn-primary" style="width:100%;padding:15px;" onclick="forgotStep(3)">Verify Code →</button>
+      </div>
+      <!-- Step 3: New Password -->
+      <div class="modal-step" id="forgotStep3">
+        <span class="modal-icon">🔑</span>
+        <h2>Create New Password</h2>
+        <p class="modal-sub">Your new password must be at least 8 characters</p>
+        <div class="input-group"><label>New Password</label><input type="password" placeholder="Enter new password"
+            id="newPass1"></div>
+        <div class="input-group"><label>Confirm Password</label><input type="password"
+            placeholder="Confirm new password" id="newPass2"></div>
+        <button class="btn-primary" style="width:100%;padding:15px;" onclick="forgotStep(4)">Reset Password →</button>
+      </div>
+      <!-- Step 4: Success -->
+      <div class="modal-step" id="forgotStep4">
+        <div class="success-checkmark">✓</div>
+        <h2>Password Reset!</h2>
+        <p class="modal-sub">Your password has been successfully updated. You can now sign in with your new password.
+        </p>
+        <button class="btn-primary" style="width:100%;padding:15px;" onclick="closeForgotModal()">Back to Login
+          →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD ===== -->
+  <div class="dashboard" id="dashboard">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo"><span>🛡️</span> HealthGuard</div>
+      <ul class="sidebar-nav">
+        <li class="active" data-page="dash" onclick="showPage('dash')"><span class="nav-icon">📊</span> Dashboard</li>
+        <li data-page="physician" onclick="showPage('physician')"><span class="nav-icon">🩺</span> AI Physician</li>
+        <li data-page="disease" onclick="showPage('disease')"><span class="nav-icon">🔬</span> Early Detection</li>
+        <li data-page="ecg" onclick="showPage('ecg')"><span class="nav-icon">❤️</span> ECG Analyzer</li>
+        <li data-page="image" onclick="showPage('image')"><span class="nav-icon">🩻</span> Image Diagnosis</li>
+        <li data-page="mental" onclick="showPage('mental')"><span class="nav-icon">🧠</span> Mental Assistant</li>
+        <li data-page="multimodal" onclick="showPage('multimodal')"><span class="nav-icon">🔮</span> Multi-Modal AI</li>
+        <li data-page="healthscore" onclick="showPage('healthscore')"><span class="nav-icon">💯</span> Health Score</li>
+        <li data-page="report" onclick="showPage('report')"><span class="nav-icon">📋</span> Reports</li>
+        <li data-page="medreport" onclick="showPage('medreport')"><span class="nav-icon">📄</span> Medical Report</li>
+      </ul>
+      <div class="sidebar-footer" onclick="showHome()">
+        <div class="sidebar-avatar">U</div>
+        <div>
+          <div style="font-weight:600;color:var(--text);">User</div>
+          <div style="font-size:11px;">Sign Out</div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <button class="btn-icon" onclick="toggleSidebar()" style="display:none;margin-bottom:16px;"
+        id="sidebarToggle">☰</button>
+
+      <!-- ===== DASHBOARD PAGE ===== -->
+      <div id="dash" class="sub-page active">
+        <div class="page-header">
+          <div>
+            <h1>AI Health Dashboard</h1>
+            <p class="header-sub">Welcome back! Here's your health overview.</p>
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-card glass">
+            <div class="stat-icon green">💚</div>
+            <div class="stat-label">Health Score</div>
+            <div class="stat-value" data-count="82" data-suffix="%">0%</div>
+            <div class="stat-change up">↑ 5% from last month</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-icon blue">💙</div>
+            <div class="stat-label">Heart Risk Level</div>
+            <div class="stat-value" style="color:#10b981;">Low</div>
+            <div class="stat-change up">↑ Improved</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-icon purple">🤖</div>
+            <div class="stat-label">AI Predictions</div>
+            <div class="stat-value" data-count="5" data-suffix="">0</div>
+            <div class="stat-change up">↑ 2 this week</div>
+          </div>
+          <div class="stat-card glass">
+            <div class="stat-icon cyan">📈</div>
+            <div class="stat-label">Screenings Done</div>
+            <div class="stat-value" data-count="12" data-suffix="">0</div>
+            <div class="stat-change up">↑ 3 this month</div>
+          </div>
+        </div>
+        <div class="chart-container glass">
+          <h3>Heart Rate Trend (Last 7 Days)</h3>
+          <svg class="chart-svg" viewBox="0 0 700 200" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(0,212,255,0.3)" />
+                <stop offset="100%" stop-color="rgba(0,212,255,0)" />
+              </linearGradient>
+            </defs>
+            <line x1="0" y1="50" x2="700" y2="50" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+            <line x1="0" y1="100" x2="700" y2="100" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+            <line x1="0" y1="150" x2="700" y2="150" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+            <path d="M0,140 L100,120 L200,130 L300,90 L400,100 L500,70 L600,85 L700,60 L700,200 L0,200 Z"
+              fill="url(#chartGrad)" />
+            <polyline points="0,140 100,120 200,130 300,90 400,100 500,70 600,85 700,60" fill="none"
+              stroke="var(--cyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="0" cy="140" r="4" fill="var(--cyan)" />
+            <circle cx="100" cy="120" r="4" fill="var(--cyan)" />
+            <circle cx="200" cy="130" r="4" fill="var(--cyan)" />
+            <circle cx="300" cy="90" r="4" fill="var(--cyan)" />
+            <circle cx="400" cy="100" r="4" fill="var(--cyan)" />
+            <circle cx="500" cy="70" r="4" fill="var(--cyan)" />
+            <circle cx="600" cy="85" r="4" fill="var(--cyan)" />
+            <circle cx="700" cy="60" r="4" fill="var(--cyan)" />
+            <text x="0" y="195" fill="#94a3b8" font-size="11">Mon</text><text x="100" y="195" fill="#94a3b8"
+              font-size="11">Tue</text><text x="200" y="195" fill="#94a3b8" font-size="11">Wed</text><text x="300"
+              y="195" fill="#94a3b8" font-size="11">Thu</text><text x="400" y="195" fill="#94a3b8"
+              font-size="11">Fri</text><text x="500" y="195" fill="#94a3b8" font-size="11">Sat</text><text x="600"
+              y="195" fill="#94a3b8" font-size="11">Sun</text>
+          </svg>
+        </div>
+        <div class="glass" style="padding:24px;">
+          <h3 style="font-family:'Outfit',sans-serif;font-size:18px;margin-bottom:16px;">Recent Activity</h3>
+          <ul class="activity-list">
+            <li class="activity-item"><span class="activity-dot green"></span><span class="activity-text">AI screening
+                completed — Health Score updated to 82%</span><span class="activity-time">2 hours ago</span></li>
+            <li class="activity-item"><span class="activity-dot blue"></span><span class="activity-text">ECG analysis
+                completed — Normal sinus rhythm detected</span><span class="activity-time">Yesterday</span></li>
+            <li class="activity-item"><span class="activity-dot yellow"></span><span class="activity-text">Blood
+                pressure reading flagged for monitoring</span><span class="activity-time">2 days ago</span></li>
+            <li class="activity-item"><span class="activity-dot green"></span><span class="activity-text">Mental health
+                check-in completed — Mood: Positive</span><span class="activity-time">3 days ago</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ===== AI PHYSICIAN ===== -->
+      <div id="physician" class="sub-page">
+        <div class="page-header">
+          <div>
+            <h1>🩺 AI General Physician</h1>
+            <p class="header-sub">Virtual Internal Medicine AI — Enter your health details for analysis</p>
+          </div>
+        </div>
+        <div class="physician-grid">
+          <div class="form-container glass">
+            <h3>Health Details</h3>
+            <div class="form-row">
+              <div class="form-group"><label>Age</label><input id="phAge" type="number" min="0"  placeholder="e.g. 35"></div>
+              <div class="form-group"><label>Weight (kg)</label><input id="phWeight" type="number" min="0" 
+                  placeholder="e.g. 70"></div>
+            </div>
+           <div class="form-row">
+          <div class="form-group">
+            <label>Blood Pressure (mmHg)</label>
+                <div style="display:flex; gap:10px;"><input type="number" min="0" id="systolic" placeholder="Systolic(e.g. 120)"><input type="number" min="0"  id="diastolic" placeholder="Diastolic(e.g. 80)">
+                </div>
+            </div>
+            <div class="form-group"><label>Sugar Level (mg/dL)</label><input id="phSugar" type="number" min="0" 
+                  placeholder="e.g. 100"></div>
+            </div>
+            <div class="form-group"><label>Heart Rate (BPM)</label><input id="phHeart" type="number" min="0" 
+                placeholder="e.g. 72"></div>
+            <div class="form-group"><label>Symptoms</label><textarea id="phSymptoms" class="form-group"
+                placeholder="Describe your symptoms... e.g. headache, fatigue, chest pain"
+                style="width:100%;min-height:90px;padding:13px 16px;border:1.5px solid var(--border-glass);border-radius:12px;background:rgba(255,255,255,0.03);color:var(--text);font-family:'Inter',sans-serif;font-size:14px;resize:vertical;outline:none;"></textarea>
+            </div>
+            
+            <button class="btn-primary" onclick="analyzePhysician()">🩺 Analyze Health</button>
+          </div>
+          <div id="physicianResult" style="display:none;">
+            <div class="physician-result glass">
+              <h4>🤖 AI Preliminary Assessment</h4>
+              <div style="margin-bottom:16px;"><span class="risk-badge" id="phRiskBadge">Low Risk</span></div>
+              <p id="phAdvice" style="color:var(--text-dim);font-size:14px;line-height:1.8;margin-bottom:16px;"></p>
+              <h4>📋 Recommended Next Steps</h4>
+              <ul class="next-steps" id="phSteps"></ul>
+            </div>
+            <!-- Explainable AI for Physician -->
+            <div class="explain-card glass" style="margin-top:20px;">
+              <h4>🧠 Why This Assessment?</h4>
+              <ul class="reasons" id="phReasons"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== DISEASE DETECTION ===== -->
+      <div id="disease" class="sub-page">
+        <div class="page-header">
+          <div>
+            <h1>🔬 Early Disease Detection</h1>
+            <p class="header-sub">Enter patient vitals for AI-powered risk analysis</p>
+          </div>
+        </div>
+        <div class="form-container glass">
+          <h3>Patient Health Parameters</h3>
+          <div class="form-row">
+            <div class="form-group"><label>Age</label><input id="age" type="number" min="0" placeholder="e.g. 35"></div>
+            <div class="form-group"><label>Gender</label><select id="gender">
+                <option value="" disabled selected>Select gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+                  <label>Blood Pressure(mmHg)</label>
+            <div style="display:flex; gap:10px;"><input type="number" min="0" id="systolic" placeholder="Systolic(e.g. 120)"><input type="number" min="0" id="diastolic" placeholder="Diastolic(e.g. 80)">
+                </div>
+                </div>
+            <div class="form-group"><label>Sugar Level (mg/dL)</label><input id="sugar" type="number"  min="0" 
+                placeholder="e.g. 100"></div>
+          </div>
+          <div class="form-group"><label>Heart Rate (BPM)</label><input id="heart" type="number" min="0" placeholder="e.g. 72">
+          </div>
+          <button class="btn-primary" onclick="predict()">🤖 Analyze with AI</button>
+          <div class="result-box" id="predResult" style="display:none;">
+            <h4 id="riskText"></h4>
+            <div class="risk-bar">
+              <div class="risk-fill risk-low" id="riskFill" style="width:0%"></div>
+            </div>
+            <p id="riskDetails" style="font-size:14px;color:var(--text-dim);line-height:1.6;"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ECG ANALYZER ===== -->
+      <div id="ecg" class="sub-page">
+        <div class="page-header">
+          <div>
+            <h1>❤️ ECG Heart Analyzer</h1>
+            <p class="header-sub">AI-powered electrocardiogram analysis</p>
+          </div>
+        </div>
+        <div class="ecg-container glass">
+          <h3 style="font-family:'Outfit',sans-serif;margin-bottom:16px;">Live ECG Waveform</h3>
+          <svg class="ecg-svg" id="ecgWave" viewBox="0 0 800 150" preserveAspectRatio="none">
+            <path class="ecg-line"
+              d="M0,75 L50,75 L60,75 L70,65 L80,75 L100,75 L110,75 L115,20 L120,130 L125,50 L130,75 L150,75 L200,75 L250,75 L260,75 L270,65 L280,75 L300,75 L310,75 L315,20 L320,130 L325,50 L330,75 L350,75 L400,75 L450,75 L460,75 L470,65 L480,75 L500,75 L510,75 L515,20 L520,130 L525,50 L530,75 L550,75 L600,75 L650,75 L660,75 L670,65 L680,75 L700,75 L710,75 L715,20 L720,130 L725,50 L730,75 L750,75 L800,75" />
+          </svg>
+        </div>
+        <div class="upload-zone" id="ecgUpload"><span class="upload-icon">📁</span>
+          <p><strong style="color:var(--cyan);">Click to upload</strong> or drag & drop your ECG file</p>
+          <p class="upload-hint">Supports PDF, PNG, JPG, DICOM files</p><input type="file"
+            accept=".pdf,.png,.jpg,.jpeg,.dcm">
+        </div>
+        <div class="upload-preview" id="ecgPreview"></div>
+        <div class="result-box" style="margin-top:24px;">
+          <h4>📊 Analysis Results</h4>
+          <p style="color:var(--text-dim);font-size:14px;line-height:1.8;margin-top:8px;"><strong
+              style="color:#10b981;">Heart Rhythm:</strong> Normal Sinus Rhythm<br><strong
+              style="color:var(--cyan);">Heart Rate:</strong> 72 BPM — Within normal range<br><strong
+              style="color:#10b981;">Risk Assessment:</strong> Low — No arrhythmias detected<br><strong
+              style="color:var(--text);">Recommendation:</strong> Continue regular monitoring</p>
+        </div>
+      </div>
+
+      <!-- ===== IMAGE DIAGNOSIS ===== -->
+      <div id="image" class="sub-page">
+        <div class="page-header">
+          <div>
+            <h1>🩻 Medical Image Diagnosis</h1>
+            <p class="header-sub">Upload medical images for AI-powered analysis</p>
+          </div>
+        </div>
+        <div class="upload-zone" id="imageUpload"><span class="upload-icon">🖼️</span>
+          <p><strong style="color:var(--cyan);">Click to upload</strong> or drag & drop X-Ray, MRI, or CT scan</p>
+          <p class="upload-hint">Supports PNG, JPG, DICOM formats — Max 25MB</p><input type="file"
+            accept="image/*,.dcm">
+        </div>
+        <div class="upload-preview" id="imagePreview"></div>
+        <div class="result-box" style="margin-top:24px;">
+          <h4>🤖 AI Diagnostic Analysis</h4>
+          <p style="color:var(--text-dim);font-size:14px;line-height:1.8;margin-top:8px;"><strong
+              style="color:var(--cyan);">Scan Type:</strong> Chest X-Ray<br><strong
+              style="color:#f59e0b;">Finding:</strong> Possible minor opacity detected in lower right lobe<br><strong
+              style="color:#f59e0b;">Confidence:</strong> 78% — Moderate<br><strong
+              style="color:var(--text);">Recommendation:</strong> Consult with a radiologist for detailed evaluation</p>
+        </div>
+      </div>
+
+      <!-- ===== MENTAL HEALTH ===== -->
+      <div id="mental" class="sub-page">
+        <div class="page-header">
+          <div>
+            <h1>🧠 Mental Health AI Assistant</h1>
+            <p class="header-sub">Your empathetic AI companion for mental wellness</p>
+          </div>
+        </div>
+        <div class="chat-container">
+          <div class="chat-window" id="chatWindow">
+            <div class="chat-msg ai">
+              <div>
+                <div class="chat-bubble">Hello! 👋 I'm your Mental Health AI Assistant. I'm here to listen, support, and
+                  help you develop healthy coping strategies. How are you feeling today?</div>
+                <div class="chat-time">AI · Now</div>
+              </div>
+            </div>
+          </div>
+          <div class="chat-input-row"><input type="text" id="chatInput" placeholder="Type your message..."><button
+              class="btn-primary" onclick="sendChat()">Send →</button></div>
+        </div>
+      </div>
+
+      <!-- ===== MULTI-MODAL HEALTH AI ===== -->
+      <div id="multimodal" class="sub-page">
+        <div class="page-header">
+          <div>
+            <h1>🔮 Multi-Modal Health AI</h1>
+            <p class="header-sub">Advanced AI analyzing multiple health signals simultaneously</p>
+          </div>
+        </div>
+        <div class="multimodal-grid">
+          <!-- Skin Detection -->
+          <div class="modal-module glass">
+            <div class="module-header">
+              <div class="module-icon skin">📷</div>
+              <h3>Skin Image Detection</h3>
+            </div>
+            <p class="mod-desc">Upload a skin image for AI-powered dermatological analysis</p>
+            <div class="upload-zone" id="skinUpload" style="padding:30px;margin:0;"><span class="upload-icon"
+                style="font-size:36px;">📷</span>
+              <p><strong style="color:var(--cyan);">Upload Skin Image</strong></p>
+              <p class="upload-hint">PNG, JPG — Max 10MB</p><input type="file" accept="image/*">
+            </div>
+            <div class="upload-preview" id="skinPreview"></div>
+            <div id="skinResult" style="display:none;margin-top:16px;">
+              <div class="result-box" style="margin-top:0;">
+                <h4>Skin Analysis</h4>
+                <p id="skinAnalysis" style="color:var(--text-dim);font-size:14px;line-height:1.7;"></p>
+              </div>
+            </div>
+          </div>
+          <!-- Voice Stress -->
+          <div class="modal-module glass">
+            <div class="module-header">
+              <div class="module-icon voice">🎤</div>
+              <h3>Voice Stress Analysis</h3>
+            </div>
+            <p class="mod-desc">Record your voice for AI stress pattern detection</p>
+            <button class="record-btn mic" id="voiceBtn" onclick="toggleVoiceRecording()">🎤 Start Recording</button>
+            <div class="waveform-placeholder" id="voiceWaveform"><span
+                style="color:var(--text-dim);font-size:13px;">Waveform will appear here</span></div>
+            <div id="voiceResult" style="display:none;">
+              <div class="result-box" style="margin-top:0;">
+                <h4>Voice Analysis</h4>
+                <p id="voiceAnalysis" style="color:var(--text-dim);font-size:14px;line-height:1.7;"></p>
+              </div>
+            </div>
+          </div>
+          <!-- Camera Heart Rate -->
+          <div class="modal-module glass">
+            <div class="module-header">
+              <div class="module-icon camera">❤️</div>
+              <h3>Camera Heart Rate Detection</h3>
+            </div>
+            <p class="mod-desc">Use your camera for pulse measurement via PPG analysis</p>
+            <button class="record-btn cam" id="cameraBtn" onclick="toggleCameraHR()">❤️ Start Camera</button>
+            <div class="camera-feed" id="cameraFeed"><span style="color:var(--text-dim);font-size:13px;">📹 Camera
+                feed</span>
+              <div class="bpm-display" id="bpmDisplay" style="display:none;">-- BPM</div>
+            </div>
+            <div id="cameraResult" style="display:none;">
+              <div class="result-box" style="margin-top:0;">
+                <h4>Heart Rate Result</h4>
+                <p id="cameraAnalysis" style="color:var(--text-dim);font-size:14px;line-height:1.7;"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Combined Analysis -->
+        <div class="combined-panel glass">
+          <h3>🔗 Combined AI Signal Analysis</h3>
+          <div class="signal-row"><span class="signal-dot" style="background:#f59e0b;"></span><span
+              class="signal-label">Skin Image Analysis</span><span class="signal-status" id="sigSkin"
+              style="color:var(--text-dim);">Awaiting input</span></div>
+          <div class="signal-row"><span class="signal-dot" style="background:var(--purple);"></span><span
+              class="signal-label">Voice Stress Analysis</span><span class="signal-status" id="sigVoice"
+              style="color:var(--text-dim);">Awaiting input</span></div>
+          <div class="signal-row"><span class="signal-dot" style="background:#ef4444;"></span><span
+              class="signal-label">Camera Heart Rate</span><span class="signal-status" id="sigCamera"
+              style="color:var(--text-dim);">Awaiting input</span></div>
+          <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border-glass);">
+            <button class="btn-primary" onclick="runCombinedAnalysis()">🔮 Run Combined Analysis</button>
+            <div id="combinedResult" style="display:none;margin-top:16px;">
+              <div class="result-box" style="margin-top:0;">
+                <h4>🧬 Multi-Modal Health Assessment</h4>
+                <p id="combinedText" style="color:var(--text-dim);font-size:14px;line-height:1.8;"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== HEALTH SCORE ===== -->
+      <div id="healthscore" class="sub-page">
+        <div class="page-header">
+          <div>
+            <h1>💯 Personal Health Score Engine</h1>
+            <p class="header-sub">AI-generated comprehensive health score combining all modules</p>
+          </div>
+        </div>
+        <div class="score-section">
+          <div class="gauge-card glass">
+            <svg class="gauge-svg" viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="70" class="gauge-bg" />
+              <circle cx="100" cy="100" r="70" class="gauge-fill" id="gaugeCircle" stroke="url(#gaugeGrad)"
+                stroke-dasharray="440" stroke-dashoffset="440" transform="rotate(-90 100 100)" />
+              <defs>
+                <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#00d4ff" />
+                  <stop offset="100%" stop-color="#7c3aed" />
+                </linearGradient>
+              </defs>
+              <text x="100" y="95" text-anchor="middle" class="gauge-text" id="gaugeScore">0</text>
+              <text x="100" y="118" text-anchor="middle" class="gauge-label">AI Health Score</text>
+            </svg>
+            <div style="margin-top:16px;"><span class="risk-badge" id="scoreRiskBadge">Calculating...</span></div>
+            <button class="btn-primary" style="margin-top:20px;" onclick="calculateHealthScore()">🔄 Calculate
+              Score</button>
+          </div>
+          <div class="score-summary-grid">
+            <div class="score-metric glass">
+              <div class="sm-icon">❤️</div>
+              <div class="sm-label">Heart Rate Status</div>
+              <div class="sm-value" id="smHeart">Normal</div>
+            </div>
+            <div class="score-metric glass">
+              <div class="sm-icon">😰</div>
+              <div class="sm-label">Stress Level</div>
+              <div class="sm-value" id="smStress">Low</div>
+            </div>
+            <div class="score-metric glass">
+              <div class="sm-icon">🧴</div>
+              <div class="sm-label">Skin Condition</div>
+              <div class="sm-value" id="smSkin">Healthy</div>
+            </div>
+            <div class="score-metric glass">
+              <div class="sm-icon">🏥</div>
+              <div class="sm-label">Overall Health</div>
+              <div class="sm-value" id="smOverall" style="color:#10b981;">Good</div>
+            </div>
+          </div>
+        </div>
+        <!-- Explainable AI -->
+        <div class="explain-section">
+          <h3 style="font-family:'Outfit',sans-serif;font-size:20px;margin-bottom:20px;">🧠 Explainable AI Insights</h3>
+          <div class="explain-card glass">
+            <h4>😰 Stress Level Assessment</h4>
+            <ul class="reasons">
+              <li>Voice pitch variation detected in recordings</li>
+              <li>Speech pattern analysis indicates moderate pace</li>
+              <li>Heart rate variability within acceptable range</li>
+            </ul>
+          </div>
+          <div class="explain-card glass">
+            <h4>❤️ Heart Health Analysis</h4>
+            <ul class="reasons">
+              <li>Resting heart rate within normal range (60-100 BPM)</li>
+              <li>ECG pattern shows normal sinus rhythm</li>
+              <li>No arrhythmia indicators detected</li>
+            </ul>
+          </div>
+          <div class="explain-card glass">
+            <h4>🧴 Skin Condition Assessment</h4>
+            <ul class="reasons">
+              <li>No abnormal pigmentation patterns detected</li>
+              <li>Skin texture analysis shows normal results</li>
+              <li>UV damage risk assessment: Low</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Preventive Suggestions -->
+        <div class="suggestions-panel">
+          <h3>💡 Preventive Healthcare Suggestions</h3>
+          <div class="suggestion-item"><span class="s-icon">🏃</span><span>Your stress pattern and heart rate
+              variability indicate potential cardiovascular risk. Consider 30 minutes of moderate exercise daily to
+              improve heart health.</span></div>
+          <div class="suggestion-item"><span class="s-icon">🧘</span><span>Voice analysis suggests elevated stress
+              markers. Practice mindfulness meditation or deep breathing exercises for 10 minutes daily.</span></div>
+          <div class="suggestion-item"><span class="s-icon">🥗</span><span>Based on your health profile, a
+              Mediterranean-style diet rich in omega-3 fatty acids could help reduce inflammation markers.</span></div>
+          <div class="suggestion-item"><span class="s-icon">😴</span><span>Ensure 7-9 hours of quality sleep. Poor sleep
+              patterns are linked to increased disease risk and accelerated skin aging.</span></div>
+          <div class="suggestion-item"><span class="s-icon">☀️</span><span>Apply SPF 30+ sunscreen daily. Your skin
+              analysis shows early signs of UV exposure that could be mitigated with proper protection.</span></div>
+        </div>
+      </div>
+
+      <!-- ===== REPORTS (Original) ===== -->
+      <div id="report" class="sub-page">
+        <div class="page-header">
+          <div>
+            <h1>📋 Health Report</h1>
+            <p class="header-sub">Your comprehensive AI health analysis summary</p>
+          </div>
+        </div>
+        <div class="report-grid">
+          <div class="report-metric glass">
+            <div class="metric-icon">💚</div>
+            <div class="metric-label">Overall Health Score</div>
+            <div class="metric-value" style="color:#10b981;">82%</div>
+          </div>
+          <div class="report-metric glass">
+            <div class="metric-icon">❤️</div>
+            <div class="metric-label">Heart Risk Level</div>
+            <div class="metric-value" style="color:#10b981;">Low</div>
+          </div>
+          <div class="report-metric glass">
+            <div class="metric-icon">🤖</div>
+            <div class="metric-label">AI Predictions</div>
+            <div class="metric-value">5</div>
+          </div>
+          <div class="report-metric glass">
+            <div class="metric-icon">🩺</div>
+            <div class="metric-label">Screening Status</div>
+            <div class="metric-value" style="color:#10b981;">Stable</div>
+          </div>
+        </div>
+        <div class="chart-container glass">
+          <h3>Monthly Health Trend</h3>
+          <svg class="chart-svg" viewBox="0 0 700 200" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="reportGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="rgba(16,185,129,0.3)" />
+                <stop offset="100%" stop-color="rgba(16,185,129,0)" />
+              </linearGradient>
+            </defs>
+            <line x1="0" y1="50" x2="700" y2="50" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+            <line x1="0" y1="100" x2="700" y2="100" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+            <line x1="0" y1="150" x2="700" y2="150" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+            <path d="M0,160 L116,140 L233,120 L350,110 L466,80 L583,70 L700,50 L700,200 L0,200 Z"
+              fill="url(#reportGrad)" />
+            <polyline points="0,160 116,140 233,120 350,110 466,80 583,70 700,50" fill="none" stroke="#10b981"
+              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="0" cy="160" r="4" fill="#10b981" />
+            <circle cx="116" cy="140" r="4" fill="#10b981" />
+            <circle cx="233" cy="120" r="4" fill="#10b981" />
+            <circle cx="350" cy="110" r="4" fill="#10b981" />
+            <circle cx="466" cy="80" r="4" fill="#10b981" />
+            <circle cx="583" cy="70" r="4" fill="#10b981" />
+            <circle cx="700" cy="50" r="4" fill="#10b981" />
+            <text x="0" y="195" fill="#94a3b8" font-size="11">Sep</text><text x="116" y="195" fill="#94a3b8"
+              font-size="11">Oct</text><text x="233" y="195" fill="#94a3b8" font-size="11">Nov</text><text x="350"
+              y="195" fill="#94a3b8" font-size="11">Dec</text><text x="466" y="195" fill="#94a3b8"
+              font-size="11">Jan</text><text x="583" y="195" fill="#94a3b8" font-size="11">Feb</text><text x="700"
+              y="195" fill="#94a3b8" font-size="11">Mar</text>
+          </svg>
+        </div>
+        <div class="report-actions"><button class="btn-primary" onclick="downloadReport()">📥 Download
+            Report</button><button class="btn-outline" onclick="printReport()">🖨️ Print Report</button></div>
+      </div>
+
+      <!-- ===== MEDICAL REPORT ===== -->
+      <div id="medreport" class="sub-page">
+        <div class="page-header">
+          <div>
+            <h1>📄 AI Medical Report</h1>
+            <p class="header-sub">Professional AI-generated health screening report</p>
+          </div>
+        </div>
+        <div id="medReportContent">
+          <div class="report-header-card glass">
+            <div class="report-logo">🛡️</div>
+            <div class="report-title">
+              <h2>Sanjivani AI  — Medical Screening Report</h2>
+              <p>Generated on <span id="reportDate"></span> | Report ID: HG-2026-<span id="reportId"></span></p>
+            </div>
+          </div>
+          <div class="report-section glass">
+            <h3>👤 Patient Information</h3>
+            <table class="report-table">
+              <tr>
+                <td>Patient Name</td>
+                <td>User (Demo)</td>
+              </tr>
+              <tr>
+                <td>Report Date</td>
+                <td id="reportDateFull"></td>
+              </tr>
+              <tr>
+                <td>Report Type</td>
+                <td>Comprehensive AI Health Screening</td>
+              </tr>
+              <tr>
+                <td>AI Confidence Level</td>
+                <td style="color:#10b981;">High (92%)</td>
+              </tr>
+            </table>
+          </div>
+          <div class="report-section glass">
+            <h3>📊 Health Score Summary</h3>
+            <table class="report-table">
+              <tr>
+                <td>Overall AI Health Score</td>
+                <td style="color:#10b981;">82 / 100</td>
+              </tr>
+              <tr>
+                <td>Risk Level</td>
+                <td><span class="risk-badge low">Low Risk</span></td>
+              </tr>
+              <tr>
+                <td>Heart Rate Status</td>
+                <td>72 BPM — Normal</td>
+              </tr>
+              <tr>
+                <td>Stress Level</td>
+                <td style="color:#10b981;">Low</td>
+              </tr>
+              <tr>
+                <td>Skin Condition</td>
+                <td style="color:#10b981;">Healthy</td>
+              </tr>
+            </table>
+          </div>
+          <div class="report-section glass">
+            <h3>🤖 AI Insights & Analysis</h3>
+            <table class="report-table">
+              <tr>
+                <td>Early Disease Detection</td>
+                <td>No significant risk markers detected</td>
+              </tr>
+              <tr>
+                <td>ECG Analysis</td>
+                <td>Normal sinus rhythm, no arrhythmias</td>
+              </tr>
+              <tr>
+                <td>Image Diagnosis</td>
+                <td>No concerning findings in recent scans</td>
+              </tr>
+              <tr>
+                <td>Mental Wellness</td>
+                <td>Positive mood indicators, low stress</td>
+              </tr>
+              <tr>
+                <td>Multi-Modal Assessment</td>
+                <td>All signals within healthy parameters</td>
+              </tr>
+            </table>
+          </div>
+          <div class="report-section glass">
+            <h3>💡 Recommendations</h3>
+            <table class="report-table">
+              <tr>
+                <td>Exercise</td>
+                <td>Maintain 150 min/week moderate activity</td>
+              </tr>
+              <tr>
+                <td>Diet</td>
+                <td>Continue balanced nutrition, increase omega-3</td>
+              </tr>
+              <tr>
+                <td>Sleep</td>
+                <td>Maintain 7-9 hours of quality sleep</td>
+              </tr>
+              <tr>
+                <td>Follow-up</td>
+                <td>Next screening recommended in 3 months</td>
+              </tr>
+              <tr>
+                <td>Specialist Referral</td>
+                <td>Not required at this time</td>
+              </tr>
+            </table>
+          </div>
+          <div
+            style="text-align:center;padding:20px;color:var(--text-dim);font-size:12px;border-top:1px solid var(--border-glass);margin-top:12px;">
+            <p>This report is AI-generated for screening purposes only. Consult a healthcare professional for diagnosis.
+            </p>
+            <p style="margin-top:4px;">© 2026 Sanjivani AI  | Confidential Medical Document</p>
+          </div>
+        </div>
+        <div class="report-actions" style="margin-top:28px;">
+          <button class="btn-primary" onclick="downloadPDFReport()">📥 Download Medical Report (PDF)</button>
+          <button class="btn-outline" onclick="printMedReport()">🖨️ Print Report</button>
+        </div>
+      </div>
+
+    </div><!-- /main-content -->
+  </div><!-- /dashboard -->
+
+  <script>
+    // ===== PAGE NAVIGATION =====
+    function showLogin() {
+      document.getElementById('homePage').style.display = 'none';
+      document.getElementById('loginPage').style.display = 'flex';
+      document.getElementById('dashboard').style.display = 'none';
+      document.querySelector('.navbar').style.display = 'none';
+    }
+    function showHome() {
+      document.getElementById('homePage').style.display = 'block';
+      document.getElementById('loginPage').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'none';
+      document.querySelector('.navbar').style.display = 'flex';
+    }
+    function openDashboard() {
+      document.getElementById('loginPage').style.display = 'none';
+      document.getElementById('homePage').style.display = 'none';
+      document.querySelector('.navbar').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      showPage('dash');
+    }
+    const allPages = ['dash', 'physician', 'disease', 'ecg', 'image', 'mental', 'multimodal', 'healthscore', 'report', 'medreport'];
+    function showPage(page) {
+      allPages.forEach(p => { const el = document.getElementById(p); if (el) { el.classList.remove('active'); el.style.display = 'none'; } });
+      const target = document.getElementById(page);
+      if (target) { target.style.display = 'block'; target.classList.add('active'); }
+      document.querySelectorAll('.sidebar-nav li').forEach(li => { li.classList.remove('active'); if (li.dataset.page === page) li.classList.add('active'); });
+      if (page === 'dash') animateCounters();
+      if (page === 'ecg') startECG();
+      if (page === 'healthscore') animateGauge(82);
+      if (page === 'medreport') fillReportDates();
+    }
+
+    // ===== TOGGLE PASSWORD =====
+    function togglePassword(btn) {
+      const input = btn.previousElementSibling;
+      if (input.type === 'password') { input.type = 'text'; btn.textContent = '🙈'; }
+      else { input.type = 'password'; btn.textContent = '👁️'; }
+    }
+
+    // ===== SIDEBAR TOGGLE (Mobile) =====
+    function toggleSidebar() { document.querySelector('.sidebar').classList.toggle('open'); }
+    function checkMobile() { const btn = document.getElementById('sidebarToggle'); if (btn) btn.style.display = window.innerWidth <= 768 ? 'flex' : 'none'; }
+    window.addEventListener('resize', checkMobile);
+
+    // ===== FORGOT PASSWORD MODAL =====
+    function openForgotModal() { document.getElementById('forgotModal').classList.add('show'); forgotStep(1); }
+    function closeForgotModal() { document.getElementById('forgotModal').classList.remove('show'); }
+    function forgotStep(step) {
+      for (let i = 1; i <= 4; i++) {
+        const el = document.getElementById('forgotStep' + i);
+        if (el) el.classList.toggle('active', i === step);
+      }
+    }
+    function otpNext(el) { if (el.value.length === 1 && el.nextElementSibling) el.nextElementSibling.focus(); }
+
+    // ===== ANIMATED COUNTERS =====
+    function animateCounters() {
+      document.querySelectorAll('[data-count]').forEach(el => {
+        const target = parseInt(el.dataset.count), suffix = el.dataset.suffix || '';
+        let current = 0; const step = Math.ceil(target / 40);
+        const timer = setInterval(() => { current += step; if (current >= target) { current = target; clearInterval(timer); } el.textContent = current + suffix; }, 30);
+      });
+    }
+
+    // ===== DISEASE PREDICTION =====
+    function predict() {
+      const age = document.getElementById('age').value, bp = document.getElementById('bp').value, sugar = document.getElementById('sugar').value, heart = document.getElementById('heart').value;
+      const resultBox = document.getElementById('predResult'), riskFill = document.getElementById('riskFill'), riskText = document.getElementById('riskText'), riskDetails = document.getElementById('riskDetails');
+      if (!age || !bp || !sugar || !heart) { resultBox.style.display = 'block'; riskText.textContent = '⚠️ Please fill in all fields'; riskFill.style.width = '0%'; riskDetails.textContent = ''; return; }
+      const risk = Math.random(); resultBox.style.display = 'block'; resultBox.style.animation = 'fadeIn 0.4s ease';
+      if (risk < 0.35) { riskText.textContent = '✅ Low Risk — No immediate concerns detected'; riskFill.style.width = '25%'; riskFill.className = 'risk-fill risk-low'; riskDetails.textContent = 'Your vitals appear normal. Continue maintaining a healthy lifestyle with regular exercise and balanced nutrition.'; }
+      else if (risk < 0.7) { riskText.textContent = '⚠️ Moderate Risk — Some indicators need attention'; riskFill.style.width = '55%'; riskFill.className = 'risk-fill risk-medium'; riskDetails.textContent = 'Some health parameters are slightly elevated. Consider scheduling a check-up and monitoring your blood pressure regularly.'; }
+      else { riskText.textContent = '🚨 High Risk — Immediate medical consultation recommended'; riskFill.style.width = '85%'; riskFill.className = 'risk-fill risk-high'; riskDetails.textContent = 'Multiple risk indicators are elevated. Please consult a healthcare professional promptly for a detailed examination.'; }
+    }
+
+    // ===== AI PHYSICIAN ANALYSIS =====
+    function analyzePhysician() {
+      const age = document.getElementById('phAge').value, weight = document.getElementById('phWeight').value, bp = document.getElementById('phBP').value, sugar = document.getElementById('phSugar').value, heart = document.getElementById('phHeart').value, symptoms = document.getElementById('phSymptoms').value;
+      if (!age || !weight || !bp || !sugar || !heart) { alert('Please fill in all health details.'); return; }
+      const resultDiv = document.getElementById('physicianResult'); resultDiv.style.display = 'block';
+      let riskLevel, riskClass, advice, steps, reasons;
+      const bpVal = parseInt(bp), sugarVal = parseInt(sugar), heartVal = parseInt(heart), ageVal = parseInt(age);
+      let riskScore = 0;
+      if (bpVal > 140) riskScore += 2; else if (bpVal > 120) riskScore += 1;
+      if (sugarVal > 200) riskScore += 2; else if (sugarVal > 126) riskScore += 1;
+      if (heartVal > 100 || heartVal < 60) riskScore += 1;
+      if (ageVal > 60) riskScore += 1;
+
+      if (riskScore <= 1) {
+        riskLevel = 'Low Risk'; riskClass = 'low';
+        advice = 'Based on your health parameters, your overall health appears to be in good condition. Your vitals are within normal ranges, suggesting a healthy cardiovascular and metabolic profile.';
+        steps = ['<span>✅</span> Continue regular health monitoring every 6 months', '<span>🏃</span> Maintain an active lifestyle with 150+ minutes of exercise per week', '<span>🥗</span> Follow a balanced diet rich in fruits, vegetables, and whole grains', '<span>😴</span> Ensure 7-9 hours of quality sleep each night'];
+        reasons = ['Blood pressure within normal range (< 120 mmHg)', 'Blood sugar levels indicate healthy metabolic function', 'Heart rate is within the optimal resting range', 'Age-appropriate health markers are satisfactory'];
+      } else if (riskScore <= 3) {
+        riskLevel = 'Medium Risk'; riskClass = 'medium';
+        advice = 'Some of your health indicators are slightly elevated. While not immediately critical, these readings suggest areas that need attention and lifestyle modifications to prevent future complications.';
+        steps = ['<span>⚠️</span> Schedule a comprehensive health check-up within 2 weeks', '<span>📊</span> Monitor blood pressure and sugar levels daily', '<span>🏥</span> Consult a general physician for preventive guidance', '<span>🧘</span> Incorporate stress management techniques into your routine', '<span>💊</span> Review current medications with your doctor if applicable'];
+        reasons = ['One or more vital signs showing borderline elevation', 'Health parameter trends suggest room for improvement', 'Symptom patterns warrant closer medical observation', 'Lifestyle factors may be contributing to elevated readings'];
+      } else {
+        riskLevel = 'High Risk'; riskClass = 'high';
+        advice = 'Multiple health indicators are significantly elevated, suggesting potential health risks that require immediate medical attention. Please consult a healthcare professional as soon as possible for comprehensive evaluation and treatment planning.';
+        steps = ['<span>🚨</span> Seek immediate consultation with a healthcare professional', '<span>🏥</span> Get comprehensive blood work and diagnostic tests', '<span>💊</span> Discuss medication options with your physician', '<span>📋</span> Create a structured health improvement plan with your doctor', '<span>🔄</span> Follow up within 1 week for progress evaluation'];
+        reasons = ['Critical vital signs exceeding safe thresholds detected', 'Multiple risk factors compounding health vulnerability', 'Symptom combination indicates elevated disease probability', 'Immediate intervention recommended to prevent complications'];
+      }
+      document.getElementById('phRiskBadge').textContent = riskLevel;
+      document.getElementById('phRiskBadge').className = 'risk-badge ' + riskClass;
+      document.getElementById('phAdvice').textContent = advice;
+      document.getElementById('phSteps').innerHTML = steps.map(s => '<li>' + s + '</li>').join('');
+      document.getElementById('phReasons').innerHTML = reasons.map(r => '<li>' + r + '</li>').join('');
+    }
+
+    // ===== ECG WAVEFORM =====
+    function startECG() { const svg = document.getElementById('ecgWave'); if (!svg) return; const path = svg.querySelector('.ecg-line'); if (path) { path.style.animation = 'none'; void path.offsetHeight; path.style.animation = 'ecgLine 3s linear infinite'; } }
+
+    // ===== FILE UPLOAD =====
+    function setupUpload(zoneId, previewId, cb) {
+      const zone = document.getElementById(zoneId); if (!zone) return;
+      const input = zone.querySelector('input[type="file"]'), preview = document.getElementById(previewId);
+      zone.addEventListener('click', () => input.click());
+      zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+      zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+      zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('dragover'); handleFile(e.dataTransfer.files[0], preview); if (cb) cb(); });
+      input.addEventListener('change', e => { handleFile(e.target.files[0], preview); if (cb) cb(); });
+    }
+    function handleFile(file, preview) {
+      if (!file) return;
+      if (file.type.startsWith('image/')) { const reader = new FileReader(); reader.onload = e => { preview.innerHTML = '<img src="' + e.target.result + '" alt="Upload preview"><p style="margin-top:12px;color:var(--cyan);font-size:14px;">✅ ' + file.name + ' uploaded successfully</p>'; }; reader.readAsDataURL(file); }
+      else { preview.innerHTML = '<p style="color:var(--cyan);font-size:14px;">✅ ' + file.name + ' uploaded successfully</p>'; }
+    }
+
+    // ===== MULTI-MODAL: Skin Upload =====
+    function onSkinUpload() {
+      setTimeout(() => {
+        document.getElementById('skinResult').style.display = 'block';
+        document.getElementById('skinAnalysis').innerHTML = '<strong style="color:#10b981;">Condition:</strong> No abnormal lesions detected<br><strong style="color:var(--cyan);">Confidence:</strong> 87%<br><strong style="color:var(--text);">Assessment:</strong> Skin appears healthy with normal pigmentation patterns';
+        document.getElementById('sigSkin').textContent = '✅ Healthy'; document.getElementById('sigSkin').style.color = '#10b981';
+      }, 1500);
+    }
+
+    // ===== MULTI-MODAL: Voice Recording =====
+    let voiceRecording = false;
+    function toggleVoiceRecording() {
+      const btn = document.getElementById('voiceBtn'), wf = document.getElementById('voiceWaveform');
+      if (!voiceRecording) {
+        voiceRecording = true; btn.textContent = '⏹ Stop Recording'; btn.classList.add('recording');
+        let bars = ''; for (let i = 0; i < 30; i++) bars += '<div class="waveform-bar" style="animation-delay:' + (i * 0.05) + 's;height:' + (8 + Math.random() * 32) + 'px;"></div>';
+        wf.innerHTML = bars;
+      } else {
+        voiceRecording = false; btn.textContent = '🎤 Start Recording'; btn.classList.remove('recording');
+        wf.innerHTML = '<span style="color:var(--text-dim);font-size:13px;">Recording complete ✅</span>';
+        setTimeout(() => {
+          document.getElementById('voiceResult').style.display = 'block';
+          document.getElementById('voiceAnalysis').innerHTML = '<strong style="color:#f59e0b;">Stress Level:</strong> Moderate<br><strong style="color:var(--cyan);">Pitch Variation:</strong> 12% above baseline<br><strong style="color:var(--text);">Speech Pattern:</strong> Slightly elevated pace detected';
+          document.getElementById('sigVoice').textContent = '⚠️ Moderate Stress'; document.getElementById('sigVoice').style.color = '#fbbf24';
+        }, 800);
+      }
+    }
+
+    // ===== MULTI-MODAL: Camera Heart Rate =====
+    let cameraActive = false, bpmInterval;
+    function toggleCameraHR() {
+      const btn = document.getElementById('cameraBtn'), feed = document.getElementById('cameraFeed'), bpm = document.getElementById('bpmDisplay');
+      if (!cameraActive) {
+        cameraActive = true; btn.textContent = '⏹ Stop Camera'; bpm.style.display = 'block';
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } }).then(stream => {
+            let video = feed.querySelector('video');
+            if (!video) { video = document.createElement('video'); video.autoplay = true; video.playsInline = true; feed.prepend(video); }
+            video.srcObject = stream; feed._stream = stream;
+          }).catch(() => { feed.querySelector('span').textContent = '📹 Camera access denied — using simulation'; });
+        }
+        let fakeBPM = 72;
+        bpmInterval = setInterval(() => { fakeBPM = 68 + Math.floor(Math.random() * 12); bpm.textContent = fakeBPM + ' BPM'; }, 1000);
+      } else {
+        cameraActive = false; btn.textContent = '❤️ Start Camera'; bpm.style.display = 'none';
+        clearInterval(bpmInterval);
+        if (feed._stream) { feed._stream.getTracks().forEach(t => t.stop()); const v = feed.querySelector('video'); if (v) v.srcObject = null; }
+        setTimeout(() => {
+          document.getElementById('cameraResult').style.display = 'block';
+          document.getElementById('cameraAnalysis').innerHTML = '<strong style="color:#10b981;">Heart Rate:</strong> 74 BPM — Normal<br><strong style="color:var(--cyan);">Rhythm:</strong> Regular sinus rhythm<br><strong style="color:var(--text);">Assessment:</strong> Heart rate within healthy resting range';
+          document.getElementById('sigCamera').textContent = '✅ 74 BPM Normal'; document.getElementById('sigCamera').style.color = '#10b981';
+        }, 500);
+      }
+    }
+
+    // ===== MULTI-MODAL: Combined Analysis =====
+    function runCombinedAnalysis() {
+      document.getElementById('combinedResult').style.display = 'block';
+      document.getElementById('combinedText').innerHTML = '<strong style="color:var(--cyan);">Multi-Modal Assessment Complete</strong><br><br>Combining skin analysis, voice stress patterns, and camera-based heart rate data, the AI has produced a holistic health assessment:<br><br>• <strong>Skin Health:</strong> Normal — No concerning patterns<br>• <strong>Stress Level:</strong> Moderate — Voice indicators suggest manageable stress<br>• <strong>Cardiac Health:</strong> Good — Heart rate and rhythm are normal<br><br><strong style="color:#10b981;">Overall Multi-Modal Risk: Low-Moderate</strong><br>Recommendation: Continue monitoring stress levels and consider incorporating relaxation techniques.';
+    }
+
+    // ===== HEALTH SCORE GAUGE =====
+    function animateGauge(score) {
+      const circle = document.getElementById('gaugeCircle'), text = document.getElementById('gaugeScore'), badge = document.getElementById('scoreRiskBadge');
+      if (!circle) return;
+      const circumference = 440, offset = circumference - (score / 100) * circumference;
+      circle.style.strokeDashoffset = circumference;
+      setTimeout(() => { circle.style.strokeDashoffset = offset; }, 100);
+      let current = 0; const timer = setInterval(() => { current++; if (current >= score) { current = score; clearInterval(timer); } text.textContent = current; }, 20);
+      if (score >= 75) { badge.textContent = 'Low Risk'; badge.className = 'risk-badge low'; }
+      else if (score >= 50) { badge.textContent = 'Medium Risk'; badge.className = 'risk-badge medium'; }
+      else { badge.textContent = 'High Risk'; badge.className = 'risk-badge high'; }
+    }
+    function calculateHealthScore() {
+      const score = 65 + Math.floor(Math.random() * 30);
+      animateGauge(score);
+      const statuses = [['Normal', 'Elevated', 'Low'], ['Low', 'Moderate', 'High'], ['Healthy', 'Fair', 'Needs Attention'], ['Good', 'Moderate', 'At Risk']];
+      const r = () => Math.floor(Math.random() * 3);
+      document.getElementById('smHeart').textContent = statuses[0][r()];
+      document.getElementById('smStress').textContent = statuses[1][r()];
+      document.getElementById('smSkin').textContent = statuses[2][r()];
+      const overall = score >= 75 ? 'Good' : score >= 50 ? 'Moderate' : 'At Risk';
+      document.getElementById('smOverall').textContent = overall;
+      document.getElementById('smOverall').style.color = score >= 75 ? '#10b981' : score >= 50 ? '#fbbf24' : '#f87171';
+    }
+
+    // ===== CHAT =====
+    const aiResponses = ["Remember to take regular breaks throughout your day. Even 5 minutes of mindful breathing can significantly reduce stress levels. 🧘", "It's completely normal to feel overwhelmed sometimes. Try the 4-7-8 breathing technique: inhale for 4 seconds, hold for 7, exhale for 8. 💙", "Staying hydrated is crucial for both physical and mental health. Aim for 8 glasses of water daily. Your brain is 75% water! 💧", "Consider starting a gratitude journal. Writing down 3 things you're thankful for each day can improve your overall well-being. 📝", "Physical activity, even a short 15-minute walk, releases endorphins that naturally boost your mood. Try to move a little each day! 🚶", "Quality sleep is foundational for mental health. Try to maintain a consistent sleep schedule and limit screen time before bed. 🌙", "It's okay to set boundaries. Saying 'no' when you need to is an important form of self-care, not selfishness. 💪", "Social connections matter. Reach out to a friend or loved one today — even a brief conversation can improve your emotional state. 🤝"];
+    let responseIndex = 0;
+    function sendChat() {
+      const input = document.getElementById('chatInput'), chat = document.getElementById('chatWindow'), msg = input.value.trim();
+      if (!msg) return;
+      const now = new Date(), time = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+      chat.innerHTML += '<div class="chat-msg user"><div><div class="chat-bubble">' + escapeHtml(msg) + '</div><div class="chat-time">' + time + '</div></div></div>';
+      input.value = '';
+      const typingId = 'typing-' + Date.now();
+      chat.innerHTML += '<div class="chat-msg ai" id="' + typingId + '"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>';
+      chat.scrollTop = chat.scrollHeight;
+      setTimeout(() => { const t = document.getElementById(typingId); if (t) t.remove(); const response = aiResponses[responseIndex % aiResponses.length]; responseIndex++; chat.innerHTML += '<div class="chat-msg ai"><div><div class="chat-bubble">' + response + '</div><div class="chat-time">AI · ' + time + '</div></div></div>'; chat.scrollTop = chat.scrollHeight; }, 1200 + Math.random() * 800);
+      chat.scrollTop = chat.scrollHeight;
+    }
+    function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+
+    // ===== REPORTS =====
+    function downloadReport() {
+      const report = '\n╔══════════════════════════════════════════╗\n║       Sanjivani AI  — Health Report     ║\n╠══════════════════════════════════════════╣\n║                                          ║\n║  Health Score:      82/100               ║\n║  Heart Risk:        Low                  ║\n║  AI Predictions:    5 completed          ║\n║  Screening Status:  Stable               ║\n║                                          ║\n║  Generated: ' + new Date().toLocaleDateString() + '              ║\n║                                          ║\n╚══════════════════════════════════════════╝\n';
+      const blob = new Blob([report], { type: 'text/plain' }), url = URL.createObjectURL(blob), a = document.createElement('a');
+      a.href = url; a.download = 'HealthGuard_Report.txt'; a.click(); URL.revokeObjectURL(url);
+    }
+    function printReport() { window.print(); }
+
+    // ===== MEDICAL REPORT =====
+    function fillReportDates() {
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      const el1 = document.getElementById('reportDate'), el2 = document.getElementById('reportDateFull'), el3 = document.getElementById('reportId');
+      if (el1) el1.textContent = dateStr; if (el2) el2.textContent = dateStr; if (el3) el3.textContent = String(Math.floor(1000 + Math.random() * 9000));
+    }
+    function downloadPDFReport() {
+      const content = document.getElementById('medReportContent');
+      const win = window.open('', '_blank');
+      win.document.write('<!DOCTYPE html><html><head><title>Sanjivani AI  Medical Report</title><style>body{font-family:Inter,Arial,sans-serif;background:#fff;color:#222;padding:40px;max-width:800px;margin:0 auto;}h2,h3{color:#0080ff;margin-bottom:12px;}table{width:100%;border-collapse:collapse;margin-bottom:24px;}td{padding:10px 14px;border-bottom:1px solid #ddd;font-size:14px;}td:first-child{color:#666;width:40%;}td:last-child{font-weight:600;}.risk-badge{display:inline-block;padding:4px 14px;border-radius:50px;font-size:12px;font-weight:600;}.risk-badge.low{background:#e6f9f0;color:#10b981;border:1px solid #10b981;}.header{display:flex;align-items:center;gap:20px;padding:20px;border:2px solid #0080ff;border-radius:12px;margin-bottom:28px;}.header-icon{width:50px;height:50px;background:linear-gradient(135deg,#00d4ff,#0080ff,#7c3aed);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;color:white;}.section{margin-bottom:24px;padding:20px;border:1px solid #e5e7eb;border-radius:8px;}h3{border-bottom:1px solid #e5e7eb;padding-bottom:8px;}.footer{text-align:center;font-size:11px;color:#999;margin-top:32px;border-top:1px solid #ddd;padding-top:16px;}@media print{body{padding:20px;}}</style></head><body>');
+      win.document.write('<div class="header"><div class="header-icon">🛡️</div><div><h2 style="margin:0;">Sanjivani AI  — Medical Screening Report</h2><p style="color:#666;font-size:13px;margin-top:4px;">Generated on ' + new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) + '</p></div></div>');
+      win.document.write('<div class="section"><h3>👤 Patient Information</h3><table><tr><td>Patient Name</td><td>User (Demo)</td></tr><tr><td>Report Date</td><td>' + new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) + '</td></tr><tr><td>Report Type</td><td>Comprehensive AI Health Screening</td></tr><tr><td>AI Confidence Level</td><td style="color:#10b981;">High (92%)</td></tr></table></div>');
+      win.document.write('<div class="section"><h3>📊 Health Score Summary</h3><table><tr><td>Overall AI Health Score</td><td style="color:#10b981;">82 / 100</td></tr><tr><td>Risk Level</td><td><span class="risk-badge low">Low Risk</span></td></tr><tr><td>Heart Rate Status</td><td>72 BPM — Normal</td></tr><tr><td>Stress Level</td><td style="color:#10b981;">Low</td></tr><tr><td>Skin Condition</td><td style="color:#10b981;">Healthy</td></tr></table></div>');
+      win.document.write('<div class="section"><h3>🤖 AI Insights & Analysis</h3><table><tr><td>Early Disease Detection</td><td>No significant risk markers</td></tr><tr><td>ECG Analysis</td><td>Normal sinus rhythm</td></tr><tr><td>Image Diagnosis</td><td>No concerning findings</td></tr><tr><td>Mental Wellness</td><td>Positive mood, low stress</td></tr></table></div>');
+      win.document.write('<div class="section"><h3>💡 Recommendations</h3><table><tr><td>Exercise</td><td>150 min/week moderate activity</td></tr><tr><td>Diet</td><td>Balanced nutrition, increase omega-3</td></tr><tr><td>Sleep</td><td>7-9 hours quality sleep</td></tr><tr><td>Follow-up</td><td>Next screening in 3 months</td></tr></table></div>');
+      win.document.write('<div class="footer"><p>AI-generated screening report. Consult a healthcare professional for diagnosis.</p><p>© 2026 Sanjivani AI  | Confidential Medical Document</p></div>');
+      win.document.write('</body></html>');
+      win.document.close();
+      setTimeout(() => { win.print(); }, 500);
+    }
+    function printMedReport() { window.print(); }
+
+    // ===== INITIALIZATION =====
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        if (document.getElementById('ecgUpload')) setupUpload('ecgUpload', 'ecgPreview');
+        if (document.getElementById('imageUpload')) setupUpload('imageUpload', 'imagePreview');
+        if (document.getElementById('skinUpload')) setupUpload('skinUpload', 'skinPreview', onSkinUpload);
+      }, 100);
+      const chatInput = document.getElementById('chatInput');
+      if (chatInput) { chatInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendChat(); }); }
+      checkMobile();
+    });
+  </script>
+</body>
+
+</html>
